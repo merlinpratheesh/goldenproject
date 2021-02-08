@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "taskmanagementproject": {
+      "hosting": {
+        "goldenproject": [
+          "taskmanagementproject"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "taskmanagementproject"
+  }
+}
