@@ -1,0 +1,22 @@
+.SignInbutton{
+    font-family: inherit;
+        display: inline-block;
+        border: 0 !important;
+        outline: 0;
+        padding: 10px 20px 12px !important;
+        line-height: 1.4;
+        background: #444857;
+        color: white !important;
+        border-radius: 4px !important;
+        font-size: 1rem;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        text-decoration: none !important;
+        font-weight: normal;
+        -webkit-transition: all 0.2s ease;
+        transition: all 0.2s ease;
+        cursor: pointer;
+    }
+    .SignInbutton:hover {
+        box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.3);
+      }

@@ -1,8 +1,24 @@
-App.component-
-{{afAuth?.authState | async | json}}
+<div *ngIf="(OnlineCheck | async) as onlineReady; else myonlineNotReady">
+    <div>
+        Online
+    </div>
+    {{afAuth?.authState | async | json}}
 
-<button (click)="logout()">Logout</button>
+    <mat-toolbar color="primary">
+        <span fxFlex="grow"></span>
+        <firebase-ui fxLayout="column" (signInSuccessWithAuthResult)="successCallback($event)"
+            (signInFailure)="errorCallback($event)" (uiShown)="uiShownCallback()"></firebase-ui>
+        <button class="SignInbutton">
 
-<firebase-ui (signInSuccessWithAuthResult)="successCallback($event)"
-             (signInFailure)="errorCallback($event)"
-             (uiShown)="uiShownCallback()"></firebase-ui>
+            <button (click)="logout()">Logout</button>
+
+            <fa-icon (click)="logout()" class="fas faSignOutAlt fa-lg" [icon]="['fas', 'sign-out-alt']">
+            </fa-icon>
+        </button>
+    </mat-toolbar>
+</div>
+<ng-template #myonlineNotReady>
+    <div fxLayoutAlign="center center" style="height:100vh;">
+      Lost Internet Connection!
+    </div>
+  </ng-template>
