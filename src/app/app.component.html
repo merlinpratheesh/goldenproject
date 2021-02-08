@@ -18,9 +18,15 @@
     </mat-toolbar>
 
 
-    <mat-grid-list cols="10" rowHeight="50vh">
 
-        <mat-grid-tile colspan="10" rowspan="2" [style.background]="'#F2F3F5'">
+    <mat-grid-list cols="10" rowHeight="50vh">
+        <mat-grid-tile colspan="2" rowspan="2" [style.background]="'#F2F3F5'">
+ 
+            <app-profile fxLayout="column" [profile]="profileRef.value"></app-profile>
+      
+        </mat-grid-tile>
+
+        <mat-grid-tile colspan="4" rowspan="2" [style.background]="'#F2F3F5'">
             <app-public> </app-public>
         </mat-grid-tile>
 

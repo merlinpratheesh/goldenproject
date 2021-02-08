@@ -12,6 +12,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment'
 import {firebase, firebaseui, FirebaseUIModule} from 'firebaseui-angular';
 import { PublicComponent } from './public/public.component'
+import { ProfileComponent } from './profile/profile.component';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInOptions: [
@@ -34,7 +35,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
 
 @NgModule({
   declarations: [
-    AppComponent,PublicComponent
+    AppComponent,PublicComponent,ProfileComponent
   ],
   imports: [
     BrowserModule,

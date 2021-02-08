@@ -10,6 +10,18 @@ export interface projectDetails{
   creationDate:string;
   profileName:string;
 }
+export interface usrinfoDetails {
+  profileName: string,
+  email: string,
+  gender:string,
+  areaOfinterest:string,
+  skills: string,
+  location:string,
+  membershipEnd: string,
+  membershipType: string,
+  projectLocation: string,
+  photoUrl: string,
+}
 @Injectable({
   providedIn: 'root'
 })
