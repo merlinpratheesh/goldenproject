@@ -2,9 +2,9 @@ import { AfterViewInit, Component,OnInit } from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import {FirebaseUISignInFailure, FirebaseUISignInSuccessWithAuthResult, FirebaseuiAngularLibraryService} from 'firebaseui-angular';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { UserdataService, usrinfoDetails } from './service/userdata.service';
+import { MainSectionGroup, UserdataService, usrinfoDetails } from './service/userdata.service';
 
 export interface something{
   profileinfo: any;
@@ -50,8 +50,35 @@ export class AppComponent implements AfterViewInit {
     });
     return this.getProfilesBehaviourSub;
   };
+  
+  Sections = of(undefined);
+  getSectionsSubscription: Subscription;
+  getSectionsBehaviourSub = new BehaviorSubject(undefined);
+  getSections = (MainAndSubSectionkeys: AngularFirestoreDocument<MainSectionGroup>) => {
+    if (this.getSectionsSubscription !== undefined) {
+      this.getSectionsSubscription.unsubscribe();
+    }
+    this.getSectionsSubscription = MainAndSubSectionkeys.valueChanges().subscribe((val: any) => {
+      if (val === undefined) {
+        this.getSectionsBehaviourSub.next(undefined);
+      } else {
+        if (val.MainSection.length === 0) {
+          this.getSectionsBehaviourSub.next(null);
+        } else {
+          if (val.MainSection.length !== 0) {
+            this.getSectionsBehaviourSub.next(val.MainSection);
+          }
+        }
+      }
+    });
+    return this.getSectionsBehaviourSub;
+  };
+
   OnlineCheck: undefined;
   profileRef;
+  keyRef;
+  userselectedProject='SHOW';
+
 
   someinfodetails:something={
     profileinfo:undefined,
@@ -63,6 +90,7 @@ export class AppComponent implements AfterViewInit {
     this.firebaseuiAngularLibraryService.firebaseUiInstance.disableAutoSignIn();
     this.myonline = this.getObservableonline(this.developmentservice.isOnline$);
     this.profileRef = this.getProfiles((this.db.doc('profile/uid')));
+    this.keyRef = this.getSections((this.db.doc('projectKey/' + 'DefaultProject')));
 
     console.log(this.profileRef);
     this.OnlineCheck = this.myonline.pipe(
