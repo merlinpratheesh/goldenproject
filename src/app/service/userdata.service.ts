@@ -1,13 +1,20 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
-import firebase from 'firebase/app';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { collectionData, doc } from 'rxfire/firestore';
-import { map  } from 'rxjs/operators';
+
+export interface projectDetails{
+  projectName: string;//Heading in testcase list
+  description:string;//Sub-Heading in testcase list
+  photoUrl: string;//Description in testcase view
+  projectUid: string;//stackblitzLink in testcase edit/doubleclick
+  creationDate:string;
+  profileName:string;
+}
 @Injectable({
   providedIn: 'root'
 })
+
 export class UserdataService {
 
-  constructor() { }
-}
+  constructor( private db: AngularFirestore) {
+ 
+   }}
