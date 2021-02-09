@@ -92,20 +92,23 @@ export class AppComponent {
             map((afterauth: firebase.User) => {
               console.log(afterauth);
               if (afterauth == null && afterauth == undefined) {
-
                 this.profileRef = this.getProfiles((this.db.doc('profile/uid')));
+                console.log('reached here', onlineval);
+                return of(onlineval);
               }
               else {
                 this.myuserProfile.userAuthenObj = afterauth;
                 console.log(afterauth);
-
                 this.profileRef = this.getProfiles((this.db.doc('profile/' + afterauth.uid)));
+                console.log('reached here', onlineval);
+                return of(onlineval);
               }
             }));
         }
-
-        console.log('reached here', onlineval);
-        return of(onlineval);
+        else{
+          console.log('reached here', onlineval);
+          return of(onlineval);
+        }      
 
       }));
   }
