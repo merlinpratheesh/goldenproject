@@ -26,6 +26,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./public.component.scss']
 })
 export class PublicComponent implements OnInit {
+  @Output() projctsDetails = new EventEmitter;
+
 
   myProjectDetails: projectDetails = {
     projectName: '',//Heading in testcase list
@@ -113,6 +115,12 @@ export class PublicComponent implements OnInit {
   }
 
 
+  projectsDetails(some) {
+    console.log('56', some);
+
+    console.log('58', some.projectName);
+    this.projctsDetails.emit({ profileRef: some.projectUid, keyref: some.projectName })
+  }
 
   ngOnInit(): void {
   }

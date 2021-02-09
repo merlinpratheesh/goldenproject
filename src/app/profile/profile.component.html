@@ -1,4 +1,5 @@
-<div *ngIf="profile | async as profiledetails" fxLayout="column"  fxLayoutAlign="space-between center">
+{{profile | async | json}}
+<div *ngIf="profile | async as profiledetails ; else noprofile" fxLayout="column" fxLayoutAlign="space-between center">
 
     <mat-card style="background-color: #47cf73;">
 
@@ -19,11 +20,9 @@
 
     </mat-card>
 
+    <div class="person">
 
-
-<div class="person">
-   
-        <img  [ngStyle]="{'background-image': 'url(' + profiledetails?.photoUrl+ ')', 'background-size': 'cover'  }">
+        <img [ngStyle]="{'background-image': 'url(' + profiledetails?.photoUrl+ ')', 'background-size': 'cover'  }">
         <h4>{{profiledetails?.profileName}}</h4>
         <h4>{{profiledetails?.email}}</h4>
         <h4>{{profiledetails?.gender}}</h4>
@@ -31,6 +30,9 @@
         <h4>{{profiledetails?.skills}}</h4>
         <h4>{{profiledetails?.location}}</h4>
 
-</div>
+    </div>
 </div>
 
+<ng-template #noprofile >
+No Profile
+</ng-template>

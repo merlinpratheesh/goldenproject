@@ -1,12 +1,12 @@
-import { AfterViewInit, Component,OnInit } from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/auth';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-import {FirebaseUISignInFailure, FirebaseUISignInSuccessWithAuthResult, FirebaseuiAngularLibraryService} from 'firebaseui-angular';
+import { FirebaseUISignInFailure, FirebaseUISignInSuccessWithAuthResult, FirebaseuiAngularLibraryService } from 'firebaseui-angular';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MainSectionGroup, UserdataService, usrinfoDetails } from './service/userdata.service';
 
-export interface something{
+export interface something {
   profileinfo: any;
 }
 
@@ -50,7 +50,7 @@ export class AppComponent implements AfterViewInit {
     });
     return this.getProfilesBehaviourSub;
   };
-  
+
   Sections = of(undefined);
   getSectionsSubscription: Subscription;
   getSectionsBehaviourSub = new BehaviorSubject(undefined);
@@ -76,31 +76,34 @@ export class AppComponent implements AfterViewInit {
 
   OnlineCheck: undefined;
   profileRef;
-  keyRef;
-  userselectedProject='SHOW';
+  keyRef = this.getSections((this.db.doc('projectKey/' + 'DefaultProject')));
+  userselectedProject = 'SHOW';
 
 
-  someinfodetails:something={
-    profileinfo:undefined,
+  someinfodetails: something = {
+    profileinfo: undefined,
   };
 
-  constructor(public developmentservice: UserdataService, private db: AngularFirestore, public afAuth: AngularFireAuth, public firebaseuiAngularLibraryService: FirebaseuiAngularLibraryService) 
-  
-  {
+  constructor(public developmentservice: UserdataService, private db: AngularFirestore, public afAuth: AngularFireAuth, public firebaseuiAngularLibraryService: FirebaseuiAngularLibraryService) {
     this.firebaseuiAngularLibraryService.firebaseUiInstance.disableAutoSignIn();
     this.myonline = this.getObservableonline(this.developmentservice.isOnline$);
-    this.profileRef = this.getProfiles((this.db.doc('profile/uid')));
-    this.keyRef = this.getSections((this.db.doc('projectKey/' + 'DefaultProject')));
-
-    console.log(this.profileRef);
     this.OnlineCheck = this.myonline.pipe(
       map((onlineval: any) => {
-      return (onlineval);
+        return (onlineval);
       }));
 
   }
-    ngAfterViewInit(): void {
-      
+
+  projctDetails(some) {
+    this.userselectedProject = some.keyref;
+    console.log(some.keyref);
+    this.profileRef = this.getProfiles((this.db.doc('profile/' + some.profileRef)));
+    console.log(this.profileRef);
+    this.getSectionsSubscription?.unsubscribe();
+    this.keyRef = this.getSections((this.db.doc('projectKey/' + some.keyref)));
+  }
+  ngAfterViewInit(): void {
+
   }
   successCallback(data: FirebaseUISignInSuccessWithAuthResult) {
     console.log('successCallback', data);
@@ -114,7 +117,7 @@ export class AppComponent implements AfterViewInit {
   uiShownCallback() {
     console.log('UI shown');
   }
-  
+
   logout() {
     this.afAuth.signOut();
   }
