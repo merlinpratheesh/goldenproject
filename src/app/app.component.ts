@@ -43,19 +43,14 @@ export class AppComponent {
     return this.getProfilesBehaviourSub;
   };
 
-  profileRef;
 
 someinfodetails:something={
   profileinfo:undefined,
 };
   constructor(public developmentservice: UserdataService, private db: AngularFirestore) 
 {
+}
+profileRef = this.getProfiles((this.db.doc('profile/uid')));
 
-
-this.profileRef = this.getProfiles((this.db.doc('profile/uid')));
-
-console.log(this.profileRef);
-
-
-}}
+}
 

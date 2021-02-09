@@ -13,7 +13,7 @@ import {  UserdataService, usrinfoDetails } from '../service/userdata.service';
 
 export class ProfileComponent implements OnInit,OnDestroy  {
 
-  @Input() profile: usrinfoDetails;
+  @Input() profile: Observable<usrinfoDetails>;
   
 
 
