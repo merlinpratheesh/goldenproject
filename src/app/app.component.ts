@@ -4,7 +4,7 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { FirebaseUISignInFailure, FirebaseUISignInSuccessWithAuthResult, FirebaseuiAngularLibraryService } from 'firebaseui-angular';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { MainSectionGroup, UserdataService, usrinfoDetails } from './service/userdata.service';
+import { MainSectionGroup, UserdataService,projectDetails, usrinfoDetails } from './service/userdata.service';
 
 export interface something {
   profileinfo: any;
@@ -75,7 +75,7 @@ export class AppComponent implements AfterViewInit {
   };
 
   OnlineCheck: undefined;
-  profileRef;
+  profileRef=this.getProfiles((this.db.doc('profile/' + 'uid')));
   keyRef = this.getSections((this.db.doc('projectKey/' + 'DefaultProject')));
   userselectedProject = 'SHOW';
 

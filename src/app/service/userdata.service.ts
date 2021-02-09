@@ -35,6 +35,14 @@ export interface usrinfoDetails {
   projectLocation: string,
   photoUrl: string,
 }
+export interface projectDetails{
+  projectName: string;//Heading in testcase list
+  description:string;//Sub-Heading in testcase list
+  photoUrl: string;//Description in testcase view
+  projectUid: string;//stackblitzLink in testcase edit/doubleclick
+  creationDate:string;
+  profileName:string;
+}
 @Injectable({
   providedIn: 'root'
 })

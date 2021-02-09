@@ -3,7 +3,7 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { FormControl, Validators } from '@angular/forms';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { startWith,map } from 'rxjs/operators';
-import {  UserdataService, usrinfoDetails } from '../service/userdata.service';
+import {  projectDetails, UserdataService, usrinfoDetails } from '../service/userdata.service';
 
 @Component({
   selector: 'app-profile',
@@ -29,6 +29,14 @@ export class ProfileComponent implements OnInit,OnDestroy  {
     projectLocation: '',
     photoUrl: ''
 
+  }
+  myProjectdetails: projectDetails={
+    projectName: '',//Heading in testcase list
+    description:'',//Sub-Heading in testcase list
+    photoUrl: '',//Description in testcase view
+    projectUid: '',//stackblitzLink in testcase edit/doubleclick
+    creationDate:'',
+    profileName:'',
   }
   constructor(public developmentservice: UserdataService, private db: AngularFirestore) { 
   }

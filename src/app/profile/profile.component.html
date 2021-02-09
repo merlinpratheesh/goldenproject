@@ -1,4 +1,7 @@
-{{profile | async | json}}
+<div class="SignInbutton" color="#216fdb">
+    <div>Profile</div>
+    <span fxFlex="primary"></span>
+  </div>
 <div *ngIf="profile | async as profiledetails ; else noprofile" fxLayout="column" fxLayoutAlign="space-between center">
 
     <mat-card style="background-color: #47cf73;">

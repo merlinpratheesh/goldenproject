@@ -4,7 +4,7 @@
     <mat-form-field class="example-full-width">
         <input type="text" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
             placeholder="Enter Task Name"  [matAutocomplete]="auto" >
-            <button mat-button *ngIf="emailFormControl.value !== ''" matSuffix mat-icon-button aria-label="Clear" (click)="emailFormControl.reset()">
+            <button mat-button *ngIf="emailFormControl.value !== ''" matSuffix mat-icon-button aria-label="Clear" (click)="emailFormControl.reset()" >
                 <mat-icon>close</mat-icon>
               </button>
         <mat-hint>Search for Public Tasks!</mat-hint>
@@ -35,7 +35,7 @@ No PublicProjects
     <mat-accordion class="example-headers-align" *ngIf="(publicList | async) as projectDetails">
 
         <mat-expansion-panel fxLayout="row" style=" padding: 20px 10px;min-width:50%;"
-            *ngFor="let details of projectDetails" >
+            *ngFor="let details of projectDetails" (click)="projectsDetails(details)" >
             <mat-expansion-panel-header style="box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.3); min-width:50%; ">
                 <mat-panel-title fxFlex="grow">
 
