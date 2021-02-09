@@ -1,69 +1,59 @@
+<div fxLayout="column" fxLayoutGap="5% overflow-y:auto;" >
 
-<div fxLayout="column" fxLayoutAlign="space-around center" >
-<form fxFlexOffset="10%" class="example-form"  *ngIf="filteredTasksOptions| async as some; else something" >
-    <mat-form-field class="example-full-width">
-        <input type="text" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
-            placeholder="Enter Task Name"  [matAutocomplete]="auto" >
-            <button mat-button *ngIf="emailFormControl.value !== ''" matSuffix mat-icon-button aria-label="Clear" (click)="emailFormControl.reset()" >
+<div fxFlexOffset="-55%">
+    <form >
+        <mat-form-field *ngIf="filteredTasksOptions| async as some;">
+            <input type="text" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
+                placeholder="Enter Task Name" [matAutocomplete]="auto">
+            <button mat-button *ngIf="emailFormControl.value !== ''" matSuffix mat-icon-button aria-label="Clear"
+                (click)="emailFormControl.reset()">
                 <mat-icon>close</mat-icon>
-              </button>
-        <mat-hint>Search for Public Tasks!</mat-hint>
-        <mat-label>Search</mat-label>
-        <mat-autocomplete  #auto="matAutocomplete" class="SignInbutton" color="#216fdb">
-            <mat-option *ngFor="let option of optionsTasks" [value] = "option">
-                {{option}}
-            </mat-option>          
-        </mat-autocomplete>
-                <mat-error *ngIf="emailFormControl.hasError('text') && !emailFormControl.hasError('required')">
-                    Please enter a valid Task Name
-                </mat-error>
-                <mat-error *ngIf="emailFormControl.hasError('required')">
-                    Task Name is <strong>required</strong>
-                </mat-error>
-    </mat-form-field>
-</form>
-
-<ng-template #something>
-No PublicProjects
-</ng-template>
-
-<div class="SignInbutton" color="#216fdb">
-    <div>PublicProjects</div>
-    <span fxFlex="primary"></span>
+            </button>
+            <mat-hint>Search for Public Tasks!</mat-hint>
+            <mat-label>Search</mat-label>
+            <mat-autocomplete #auto="matAutocomplete" color="#216fdb">
+                <mat-option *ngFor="let option of optionsTasks" [value]="option">
+                    {{option}}
+                </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="emailFormControl.hasError('text') && !emailFormControl.hasError('required')">
+                Please enter a valid Task Name
+            </mat-error>
+            <mat-error *ngIf="emailFormControl.hasError('required')">
+                Task Name is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+    </form>
 </div>
-<cdk-virtual-scroll-viewport itemSize="100" class="scroll-viewport">
-    <mat-accordion class="example-headers-align" *ngIf="(publicList | async) as projectDetails">
+<mat-accordion  *ngIf="(publicList | async) as projectDetails">
 
-        <mat-expansion-panel fxLayout="row" style=" padding: 20px 10px;min-width:50%;"
-            *ngFor="let details of projectDetails" (click)="projectsDetails(details)" >
-            <mat-expansion-panel-header style="box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.3); min-width:50%; ">
-                <mat-panel-title fxFlex="grow">
+    <mat-expansion-panel fxLayout="row" style=" padding: 20px 10px;min-width:50%;"
+        *ngFor="let details of projectDetails" (click)="projectsDetails(details)">
+        <mat-expansion-panel-header style="box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.3); min-width:50%; ">
+            <mat-panel-title fxFlex="grow">
 
-                    <div fxFlexAlign="center" fxLayout="center center">
-                        <mat-card fxLayout="column" style=" border-style:unset !important;">
-                            <span mat-card-avatar
-                                [ngStyle]="{'background-image': 'url(' + details.photoUrl + ')', 'background-size': 'cover' }"></span>
-                        </mat-card>
+                {{details.projectName}}
+
+            </mat-panel-title>
+            <mat-panel-description>
+                <div fxFlexAlign="center" fxLayout="center center">
+                    <div fxLayout="column" style=" border-style:unset !important;">
+                        <span mat-card-avatar
+                            [ngStyle]="{'background-image': 'url(' + details.photoUrl + ')', 'background-size': 'cover' }"></span>
                     </div>
-
-
-                </mat-panel-title>
-                <mat-panel-description>
-                    {{details.projectName}}
-
-                </mat-panel-description>
-            </mat-expansion-panel-header>
-            <mat-icon>account_circle</mat-icon>
-            Created : {{details.creationDate.toDate() | date:'dd-mm-yyyy'}}
-            <mat-divider></mat-divider>
-
-            By: {{details.profileName}}
-            <mat-divider></mat-divider>
-
-            {{details.description}}
-
-        </mat-expansion-panel>
+                </div>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-icon>account_circle</mat-icon>
+        Created : {{details.creationDate.toDate() | date:'dd-mm-yyyy'}}
         <mat-divider></mat-divider>
-    </mat-accordion>
-</cdk-virtual-scroll-viewport>
+
+        By: {{details.profileName}}
+        <mat-divider></mat-divider>
+
+        {{details.description}}
+
+    </mat-expansion-panel>
+    <mat-divider></mat-divider>
+</mat-accordion>
 </div>

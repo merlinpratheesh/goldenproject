@@ -6,6 +6,9 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { collectionData, doc } from 'rxfire/firestore';
 import { map  } from 'rxjs/operators';
 
+export interface userProfile {
+  userAuthenObj: firebase.User
+}
 export interface projectDetails{
   projectName: string;//Heading in testcase list
   description:string;//Sub-Heading in testcase list

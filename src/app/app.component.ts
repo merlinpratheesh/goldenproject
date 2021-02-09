@@ -3,12 +3,11 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { FirebaseUISignInFailure, FirebaseUISignInSuccessWithAuthResult, FirebaseuiAngularLibraryService } from 'firebaseui-angular';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { MainSectionGroup, UserdataService,projectDetails, usrinfoDetails } from './service/userdata.service';
+import { map, switchMap } from 'rxjs/operators';
+import { MainSectionGroup, UserdataService,projectDetails,userProfile, usrinfoDetails } from './service/userdata.service';
+import firebase from 'firebase/app';
 
-export interface something {
-  profileinfo: any;
-}
+
 
 @Component({
   selector: 'app-root',
@@ -16,11 +15,12 @@ export interface something {
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements AfterViewInit {
-
+  myuserProfile: userProfile = {
+    userAuthenObj: null,//Receive User obj after login success
+  };
   myonline;
   subjectonline = new BehaviorSubject(undefined);
   getObservableonlineSub: Subscription = new Subscription;
-
   getObservableonline = (localonline: Observable<boolean>) => {
     this.getObservableonlineSub?.unsubscribe();
     this.getObservableonlineSub = localonline.subscribe((valOnline: any) => {
@@ -29,6 +29,19 @@ export class AppComponent implements AfterViewInit {
     });
     return this.subjectonline;
   }
+  myauth;
+  loggedinstate: Observable<string> = new BehaviorSubject(undefined);
+  subjectauth = new BehaviorSubject(undefined);
+  getObservableauthStateSub: Subscription = new Subscription;
+  getObservableauthState = (authdetails: Observable<firebase.User>) => {
+    if (this.getObservableauthStateSub !== undefined) {
+      this.getObservableauthStateSub.unsubscribe();
+    }
+    this.getObservableauthStateSub = authdetails.subscribe((val: any) => {
+      this.subjectauth.next(val);
+    });
+    return this.subjectauth;
+  };
   getProfilesSubscription: Subscription;
   getProfilesBehaviourSub = new BehaviorSubject(undefined);
   getProfiles = (profileDetails: AngularFirestoreDocument<usrinfoDetails>) => {
@@ -75,23 +88,47 @@ export class AppComponent implements AfterViewInit {
   };
 
   OnlineCheck: undefined;
-  profileRef=this.getProfiles((this.db.doc('profile/' + 'uid')));
+  profileRef;
   keyRef = this.getSections((this.db.doc('projectKey/' + 'DefaultProject')));
   userselectedProject = 'SHOW';
 
 
-  someinfodetails: something = {
-    profileinfo: undefined,
-  };
-
-  constructor(public developmentservice: UserdataService, private db: AngularFirestore, public afAuth: AngularFireAuth, public firebaseuiAngularLibraryService: FirebaseuiAngularLibraryService) {
+  constructor(
+    public developmentservice: UserdataService, 
+    private db: AngularFirestore, public afAuth: AngularFireAuth, 
+    public firebaseuiAngularLibraryService: FirebaseuiAngularLibraryService) 
+    
+    {
     this.firebaseuiAngularLibraryService.firebaseUiInstance.disableAutoSignIn();
     this.myonline = this.getObservableonline(this.developmentservice.isOnline$);
-    this.OnlineCheck = this.myonline.pipe(
-      map((onlineval: any) => {
-        return (onlineval);
-      }));
+    this.myauth = this.getObservableauthState(this.afAuth.authState);
 
+    this.OnlineCheck = this.myonline.pipe(
+      switchMap((onlineval: any) => {
+        if (onlineval === true) {
+          return this.myauth.pipe(
+            map((afterauth: firebase.User) => {
+              console.log(afterauth);
+              if (afterauth == null && afterauth == undefined) {
+                this.profileRef = this.getProfiles((this.db.doc('profile/uid')));
+                console.log('reached here', onlineval);
+                return of(onlineval);
+              }
+              else {
+                this.myuserProfile.userAuthenObj = afterauth;
+                console.log(afterauth);
+                this.profileRef = this.getProfiles((this.db.doc('profile/' + afterauth.uid)));
+                console.log('reached here', onlineval);
+                return of(onlineval);
+              }
+            }));
+        }
+        else{
+          console.log('reached here', onlineval);
+          return of(onlineval);
+        }      
+
+      }));
   }
 
   projctDetails(some) {
