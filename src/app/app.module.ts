@@ -10,7 +10,27 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
+import {firebase, firebaseui, FirebaseUIModule} from 'firebaseui-angular';
+
 import { ProfileComponent } from './profile/profile.component';
+
+const firebaseUiAuthConfig: firebaseui.auth.Config = {
+  signInOptions: [
+      {
+        // Google provider must be enabled in Firebase Console to support one-tap
+        // sign-up.
+        provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        // Required to enable ID token credentials for this provider.
+        // This can be obtained from the Credentials page of the Google APIs
+        // console. Use the same OAuth client ID used for the Google provider
+        // configured with GCIP or Firebase Auth.
+        clientId: '325755404242-i8ufs5g8moq28o4oh38nv6qf3cbbt1gd.apps.googleusercontent.com'
+        
+      }],
+  
+    credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+  
+  };
 
 @NgModule({
   declarations: [
@@ -24,7 +44,8 @@ import { ProfileComponent } from './profile/profile.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // firestore
     AngularFireAuthModule, // auth
-    AngularFireStorageModule // storage
+    AngularFireStorageModule, // storage
+    FirebaseUIModule.forRoot(firebaseUiAuthConfig)
   ],
   providers: [],
   bootstrap: [AppComponent]

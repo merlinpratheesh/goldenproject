@@ -1,10 +1,38 @@
+<div *ngIf="(OnlineCheck | async) as onlineReady; else myonlineNotReady">
+  <div>
+    Online
+  </div>
+  {{afAuth?.authState | async | json}}
 
+  <mat-toolbar color="primary">
+    <span fxFlex="grow"></span>
+    <div>
+    Welcome {{myuserProfile?.userAuthenObj.displayName}}!
+  </div>
+    <firebase-ui fxLayout="column" (signInSuccessWithAuthResult)="successCallback($event)"
+      (signInFailure)="errorCallback($event)" (uiShown)="uiShownCallback()"></firebase-ui>
+    <button class="SignInbutton">
+
+      <button (click)="logout()">Logout</button>
+
+      <fa-icon (click)="logout()" class="fas faSignOutAlt fa-lg" [icon]="['fas', 'sign-out-alt']">
+      </fa-icon>
+    </button>
+  </mat-toolbar>
+  
 <mat-grid-list cols="10" rowHeight="50vh">
 
   <mat-grid-tile colspan="2" rowspan="2" [style.background]="'#F2F3F5'">
- 
-      <app-profile fxLayout="column" [profile]="profileRef"></app-profile>
+
+    <app-profile fxLayout="column" [profile]="profileRef"></app-profile>
 
   </mat-grid-tile>
 
 </mat-grid-list>
+</div>
+<ng-template #myonlineNotReady>
+  <div fxLayoutAlign="center center" style="height:10vh;">
+    Lost Internet Connection!
+  </div>
+</ng-template>
+
