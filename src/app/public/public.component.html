@@ -1,6 +1,6 @@
-<div fxLayout="column" fxLayoutGap="5% overflow-y:auto;" >
+<div fxLayout="column" fxLayoutGap="5%" >
 
-<div fxFlexOffset="-55%">
+<div   fxFlexOffset="-55%"  >
     <form >
         <mat-form-field *ngIf="filteredTasksOptions| async as some;">
             <input type="text" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
@@ -25,7 +25,8 @@
         </mat-form-field>
     </form>
 </div>
-<mat-accordion  *ngIf="(publicList | async) as projectDetails">
+
+<mat-accordion style="position:relative;overflow-y: scroll;" *ngIf="(publicList | async) as projectDetails">
 
     <mat-expansion-panel fxLayout="row" style=" padding: 20px 10px;min-width:50%;"
         *ngFor="let details of projectDetails" (click)="projectsDetails(details)">
@@ -38,7 +39,7 @@
             <mat-panel-description>
                 <div fxFlexAlign="center" fxLayout="center center">
                     <div fxLayout="column" style=" border-style:unset !important;">
-                        <span mat-card-avatar
+                        <span  mat-card-avatar
                             [ngStyle]="{'background-image': 'url(' + details.photoUrl + ')', 'background-size': 'cover' }"></span>
                     </div>
                 </div>
@@ -54,6 +55,5 @@
         {{details.description}}
 
     </mat-expansion-panel>
-    <mat-divider></mat-divider>
 </mat-accordion>
 </div>
