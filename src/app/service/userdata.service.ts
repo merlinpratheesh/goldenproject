@@ -5,10 +5,16 @@ import firebase from 'firebase/app';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { collectionData, doc } from 'rxfire/firestore';
 import { map  } from 'rxjs/operators';
+import { FormGroup } from '@angular/forms';
 
 export interface userProfile {
   userAuthenObj: firebase.User
 }
+
+export interface projectFlags{
+  userAuthenObj:boolean
+}
+
 export interface projectDetails{
   projectName: string;//Heading in testcase list
   description:string;//Sub-Heading in testcase list
@@ -38,6 +44,10 @@ export interface usrinfoDetails {
   projectLocation: string,
   photoUrl: string,
 }
+export interface projectControls {
+  editProfileGroup?: FormGroup;
+}
+
 export interface projectDetails{
   projectName: string;//Heading in testcase list
   description:string;//Sub-Heading in testcase list
@@ -62,6 +72,16 @@ export class UserdataService {
       fromEvent(window, 'offline')
     ).pipe(map(() => navigator.onLine));
    }
+
+   async updateProfile (val: any) : Promise<void>{
+    await this.db.firestore.runTransaction(() => {
+      const promise = Promise.all([
+        this.db.doc('profile/' + 'uid').update(val),
+      ]);
+      return promise;
+    });
+  }
+
   async createnewprofileDetails(uid:string, newprojectinfo: any) : Promise<void>{
     await this.db.firestore.runTransaction(() => {
       const promise = Promise.all([

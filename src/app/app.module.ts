@@ -12,7 +12,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment'
 import {firebase, firebaseui, FirebaseUIModule} from 'firebaseui-angular';
 import { PublicComponent } from './public/public.component'
-import { ProfileComponent } from './profile/profile.component';
+import { BottomSheetOverviewExampleSheet,ProfileComponent } from './profile/profile.component';
 import { NestedTreeComponent,BottomSheetChangeOrder } from './nested-tree/nested-tree.component';
 import { AddNodeComponent,NewNodeDialog } from './nested-tree/add-node/add-node.component';
 import { DeleteNodeComponent, } from './nested-tree/delete-node/delete-node.component';
@@ -39,7 +39,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
 
 @NgModule({
   declarations: [
-    AppComponent,PublicComponent,ProfileComponent,EditNodeComponent,EditNodeDialog,NestedTreeComponent,BottomSheetChangeOrder,AddNodeComponent,NewNodeDialog,DeleteNodeComponent,
+    AppComponent,PublicComponent,ProfileComponent,BottomSheetOverviewExampleSheet,EditNodeComponent,EditNodeDialog,NestedTreeComponent,BottomSheetChangeOrder,AddNodeComponent,NewNodeDialog,DeleteNodeComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,6 +54,9 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     FirebaseUIModule.forRoot(firebaseUiAuthConfig)
   ],
   providers: [],
+  
+  entryComponents: [ BottomSheetOverviewExampleSheet],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

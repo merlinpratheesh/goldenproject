@@ -12,8 +12,11 @@
         <h4>{{profiledetails?.areaOfinterest}}</h4>
         <h4>{{profiledetails?.skills}}</h4>
         <h4>{{profiledetails?.location}}</h4>
+    
 
     </div>
+    <button type="button" class="btn btn-sm btn-outline-primary" (click)="openBottomSheet(profiledetails)" >Edit</button>
+
     
     <mat-card  class="example-card" fxFlex="20vw" fxFlex.lt-sm="40vw" style="background-color: #47cf73;">
 
@@ -33,6 +36,7 @@
         </div>
 
     </mat-card>
+
 
 </div>
 

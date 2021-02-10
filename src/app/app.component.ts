@@ -4,7 +4,7 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { FirebaseUISignInFailure, FirebaseUISignInSuccessWithAuthResult, FirebaseuiAngularLibraryService } from 'firebaseui-angular';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { MainSectionGroup, UserdataService,projectDetails,userProfile, usrinfoDetails } from './service/userdata.service';
+import { MainSectionGroup, UserdataService, projectDetails, userProfile, usrinfoDetails } from './service/userdata.service';
 import firebase from 'firebase/app';
 
 
@@ -52,110 +52,108 @@ export class AppComponent implements AfterViewInit {
       if (val === undefined) {
         this.getProfilesBehaviourSub.next(undefined);
       } else {
-        if (val.profileMoreinfo.length === 0) {
-          this.getProfilesBehaviourSub.next(null);
-        } else {
-          if (val.profileMoreinfo.length !== 0) {
-            this.getProfilesBehaviourSub.next(val.profileMoreinfo);
-          }
-        }
+        this.getProfilesBehaviourSub.next(val);
       }
-    });
+    }
+      
+    );
     return this.getProfilesBehaviourSub;
   };
 
-  Sections = of(undefined);
-  getSectionsSubscription: Subscription;
-  getSectionsBehaviourSub = new BehaviorSubject(undefined);
-  getSections = (MainAndSubSectionkeys: AngularFirestoreDocument<MainSectionGroup>) => {
-    if (this.getSectionsSubscription !== undefined) {
-      this.getSectionsSubscription.unsubscribe();
-    }
-    this.getSectionsSubscription = MainAndSubSectionkeys.valueChanges().subscribe((val: any) => {
-      if (val === undefined) {
-        this.getSectionsBehaviourSub.next(undefined);
+Sections = of(undefined);
+getSectionsSubscription: Subscription;
+getSectionsBehaviourSub = new BehaviorSubject(undefined);
+getSections = (MainAndSubSectionkeys: AngularFirestoreDocument<MainSectionGroup>) => {
+  if (this.getSectionsSubscription !== undefined) {
+    this.getSectionsSubscription.unsubscribe();
+  }
+  this.getSectionsSubscription = MainAndSubSectionkeys.valueChanges().subscribe((val: any) => {
+    if (val === undefined) {
+      this.getSectionsBehaviourSub.next(undefined);
+    } else {
+      if (val.MainSection.length === 0) {
+        this.getSectionsBehaviourSub.next(null);
       } else {
-        if (val.MainSection.length === 0) {
-          this.getSectionsBehaviourSub.next(null);
-        } else {
-          if (val.MainSection.length !== 0) {
-            this.getSectionsBehaviourSub.next(val.MainSection);
-          }
+        if (val.MainSection.length !== 0) {
+          this.getSectionsBehaviourSub.next(val.MainSection);
         }
       }
-    });
-    return this.getSectionsBehaviourSub;
-  };
+    }
+  });
+  return this.getSectionsBehaviourSub;
+};
 
-  OnlineCheck: undefined;
-  profileRef;
-  keyRef = this.getSections((this.db.doc('projectKey/' + 'DefaultProject')));
-  userselectedProject = 'SHOW';
+OnlineCheck: undefined;
+profileRef;
+keyRef = this.getSections((this.db.doc('projectKey/' + 'DefaultProject')));
+userselectedProject = 'SHOW';
+newUidRef:any;
 
+constructor(
+  public developmentservice: UserdataService,
+  private db: AngularFirestore, public afAuth: AngularFireAuth,
+  public firebaseuiAngularLibraryService: FirebaseuiAngularLibraryService)
 
-  constructor(
-    public developmentservice: UserdataService, 
-    private db: AngularFirestore, public afAuth: AngularFireAuth, 
-    public firebaseuiAngularLibraryService: FirebaseuiAngularLibraryService) 
-    
-    {
-    this.firebaseuiAngularLibraryService.firebaseUiInstance.disableAutoSignIn();
-    this.myonline = this.getObservableonline(this.developmentservice.isOnline$);
-    this.myauth = this.getObservableauthState(this.afAuth.authState);
+{
+  this.firebaseuiAngularLibraryService.firebaseUiInstance.disableAutoSignIn();
+  this.myonline = this.getObservableonline(this.developmentservice.isOnline$);
+  this.myauth = this.getObservableauthState(this.afAuth.authState);
 
-    this.OnlineCheck = this.myonline.pipe(
-      switchMap((onlineval: any) => {
-        if (onlineval === true) {
-          return this.myauth.pipe(
-            map((afterauth: firebase.User) => {
-              console.log(afterauth);
-              if (afterauth == null && afterauth == undefined) {
-                this.profileRef = this.getProfiles((this.db.doc('profile/uid')));
-                console.log('reached here', onlineval);
-                return of(onlineval);
-              }
-              else {
-                this.myuserProfile.userAuthenObj = afterauth;
-                console.log(afterauth);
-                this.profileRef = this.getProfiles((this.db.doc('profile/' + afterauth.uid)));
-                console.log('reached here', onlineval);
-                return of(onlineval);
-              }
-            }));
-        }
-        else{
-          console.log('reached here', onlineval);
-          return of(onlineval);
-        }      
+  this.OnlineCheck = this.myonline.pipe(
+    switchMap((onlineval: any) => {
+      if (onlineval === true) {
+        return this.myauth.pipe(
+          map((afterauth: firebase.User) => {
+            console.log(afterauth);
+            if (afterauth == null && afterauth == undefined) {
+              this.profileRef = this.getProfiles((this.db.doc('profile/uid')));
+              console.log('reached here', onlineval);
+              return of(onlineval);
+            }
+            else {
+              this.myuserProfile.userAuthenObj = afterauth;
+              this.profileRef = this.getProfiles((this.db.doc('profile/' + afterauth.uid)));
+              this.newUidRef=afterauth.uid;
+              console.log(this.newUidRef);
 
-      }));
-  }
+              console.log('reached here', onlineval);
+              return of(onlineval);
+            }
+          }));
+      }
+      else {
+        console.log('reached here', onlineval);
+        return of(onlineval);
+      }
 
-  projctDetails(some) {
-    this.userselectedProject = some.keyref;
-    console.log(some.keyref);
-    this.profileRef = this.getProfiles((this.db.doc('profile/' + some.profileRef)));
-    console.log(this.profileRef);
-    this.getSectionsSubscription?.unsubscribe();
-    this.keyRef = this.getSections((this.db.doc('projectKey/' + some.keyref)));
-  }
-  ngAfterViewInit(): void {
+    }));
+}
 
-  }
-  successCallback(data: FirebaseUISignInSuccessWithAuthResult) {
-    console.log('successCallback', data);
+projctDetails(some) {
+  this.userselectedProject = some.keyref;
+  console.log(some.keyref);
+  this.profileRef = this.getProfiles((this.db.doc('profile/' + some.profileRef)));
+  console.log(this.profileRef);
+  this.getSectionsSubscription?.unsubscribe();
+  this.keyRef = this.getSections((this.db.doc('projectKey/' + some.keyref)));
+}
+ngAfterViewInit(): void {
 
-  }
+}
+successCallback(data: FirebaseUISignInSuccessWithAuthResult) {
+  console.log('successCallback', data);
 
-  errorCallback(data: FirebaseUISignInFailure) {
-    console.warn('errorCallback', data);
-  }
+}
 
-  uiShownCallback() {
-    console.log('UI shown');
-  }
+errorCallback(data: FirebaseUISignInFailure) {
+  console.warn('errorCallback', data);
+}
 
-  logout() {
-    this.afAuth.signOut();
-  }
+uiShownCallback() {
+  console.log('UI shown');
+}
+
+logout() {
+  this.afAuth.signOut();
+}
 }
