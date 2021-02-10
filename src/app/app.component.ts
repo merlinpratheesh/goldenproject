@@ -2,13 +2,13 @@ import { Component, OnDestroy } from '@angular/core';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { FormControl, Validators } from '@angular/forms';
 import { docData } from 'rxfire/firestore';
-import {of ,Observable, Subscription, BehaviorSubject} from 'rxjs';
+import { of, Observable, Subscription, BehaviorSubject } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { UserdataService, usrinfoDetails } from './service/userdata.service';
-import {FirebaseUISignInFailure, FirebaseUISignInSuccessWithAuthResult, FirebaseuiAngularLibraryService} from 'firebaseui-angular';
-import {AngularFireAuth} from '@angular/fire/auth';
+import { FirebaseUISignInFailure, FirebaseUISignInSuccessWithAuthResult, FirebaseuiAngularLibraryService } from 'firebaseui-angular';
+import { AngularFireAuth } from '@angular/fire/auth';
 
-export interface something{
+export interface something {
   profileinfo: any;
 }
 
@@ -31,23 +31,19 @@ export class AppComponent {
       if (val === undefined) {
         this.getProfilesBehaviourSub.next(undefined);
       } else {
-        if (val.profileMoreinfo.length === 0) {
-          this.getProfilesBehaviourSub.next(null);
-        } else {
-          if (val.profileMoreinfo.length !== 0) {
-            this.getProfilesBehaviourSub.next(val.profileMoreinfo);
-          }
-        }
+          this.getProfilesBehaviourSub.next(val);
+        
       }
-    });
+    }
+    );
     return this.getProfilesBehaviourSub;
   };
 
 
-someinfodetails:something={
-  profileinfo:undefined,
+someinfodetails: something = {
+  profileinfo: undefined,
 };
-  constructor(public developmentservice: UserdataService, private db: AngularFirestore) 
+constructor(public developmentservice: UserdataService, private db: AngularFirestore)
 {
 }
 profileRef = this.getProfiles((this.db.doc('profile/uid')));

@@ -10,11 +10,11 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
-import { ProfileComponent } from './profile/profile.component';
+import { BottomSheetOverviewExampleSheet, ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
-    AppComponent,ProfileComponent
+    AppComponent,ProfileComponent,BottomSheetOverviewExampleSheet
   ],
   imports: [
     BrowserModule,
@@ -27,6 +27,8 @@ import { ProfileComponent } from './profile/profile.component';
     AngularFireStorageModule // storage
   ],
   providers: [],
+  entryComponents: [ BottomSheetOverviewExampleSheet],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }
