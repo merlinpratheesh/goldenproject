@@ -31,14 +31,11 @@ export class AppComponent {
       if (val === undefined) {
         this.getProfilesBehaviourSub.next(undefined);
       } else {
-        if (val.profileMoreinfo.length === 0) {
-          this.getProfilesBehaviourSub.next(null);
-        } else {
-          if (val.profileMoreinfo.length !== 0) {
-            this.getProfilesBehaviourSub.next(val.profileMoreinfo);
-          }
+        
+            this.getProfilesBehaviourSub.next(val);
+          
         }
-      }
+      
     });
     return this.getProfilesBehaviourSub;
   };
