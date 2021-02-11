@@ -22,11 +22,13 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 }
 @Component({
   selector: 'app-public',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './public.component.html',
   styleUrls: ['./public.component.scss']
 })
 export class PublicComponent implements OnInit {
   @Output() projctsDetails = new EventEmitter;
+  @Output() firstProject = new EventEmitter;
 
 
   myProjectDetails: projectDetails = {
@@ -69,7 +71,7 @@ export class PublicComponent implements OnInit {
     Validators.email,
   ]);
   publicProjectList: any;
-  filteredTasksOptions: Observable<any[]>;
+  filteredTasksOptions: Subscription;
   optionsTasks: string[] = [];
   optionsTasksBk: any[] = [];
   DisplayprojectDetails: Observable<projectDetails[]>;
@@ -81,17 +83,20 @@ export class PublicComponent implements OnInit {
     this.optionsTasksSub = docData(this.db.firestore.doc('projectList/publicProject')).subscribe((readrec: any) => {
       this.optionsTasks = [];
       this.optionsTasksBk = readrec.public;
+      console.log(this.optionsTasksBk[0]);
+      this.firstProject.emit({ firstProjectRef: this.optionsTasksBk[0] });
       readrec.public.forEach(element => {
         this.optionsTasks.push(element.projectName);
       });
       console.log(this.optionsTasks);
-
+    
       this.filteredTasksOptions = this.emailFormControl.valueChanges.pipe(
         startWith(''),
         map((value) => {
-          console.log(value);
+          console.log('96',value);
           if (value === '' || value === null) {
             this.publicList = this.getPublicList(this.db.doc('projectList/publicProject'));
+            console.log('99',this.publicList)
             this.optionsTasks = [];
             this.optionsTasksBk.forEach(element => {
               this.optionsTasks.push(element.projectName);
@@ -105,8 +110,13 @@ export class PublicComponent implements OnInit {
             return this.optionsTasksBk.filter(option => option.projectName.toLowerCase().indexOf(value) === 0);
           }
         }
-        ));
-    });
+        ))    .subscribe(
+          some=>{
+
+          }
+        );
+
+    })
 
   }
   private _filter(value: string): string[] {
@@ -120,6 +130,12 @@ export class PublicComponent implements OnInit {
 
     console.log('58', some.projectName);
     this.projctsDetails.emit({ profileRef: some.projectUid, keyref: some.projectName })
+  }
+
+  firstDefaultProject(some) {
+
+    console.log('58', some.projectName);
+    this.firstProject.emit({ firstProjectRef: some.this.optionsTasks[0] });
   }
 
   ngOnInit(): void {

@@ -2,7 +2,8 @@
 
 <div   fxFlexOffset="-55%"  >
     <form >
-        <mat-form-field *ngIf="filteredTasksOptions| async as some;">
+        <mat-form-field >
+
             <input type="text" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
                 placeholder="Enter Task Name" [matAutocomplete]="auto">
             <button mat-button *ngIf="emailFormControl.value !== ''" matSuffix mat-icon-button aria-label="Clear"
@@ -25,6 +26,9 @@
         </mat-form-field>
     </form>
 </div>
+
+
+{{publicList | async}}
 
 <mat-accordion style="position:relative;overflow-y: scroll;" *ngIf="(publicList | async) as projectDetails">
 

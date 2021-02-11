@@ -4,7 +4,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { collectionData, doc } from 'rxfire/firestore';
-import { map } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 
 export interface userProfile {
@@ -30,15 +30,16 @@ export interface MainSectionGroup {
   section: SubSection[];
 }
 export interface usrinfoDetails {
+  projectName:string,
   profileName: string,
-  email: string,
-  gender: string,
-  areaOfinterest: string,
-  skills: string,
-  location: string,
-  membershipEnd: string,
-  membershipType: string,
-  projectLocation: string,
+  email?: string,
+  gender?: string,
+  areaOfinterest?: string,
+  skills?: string,
+  location?: string,
+  membershipEnd?:firebase. firestore. Timestamp;
+  membershipType?: string,
+  projectLocation?: string,
   photoUrl: string,
 }
 export interface projectControls {
@@ -63,14 +64,27 @@ export class UserdataService {
     ).pipe(map(() => navigator.onLine));
   }
 
-  async updateProfile (val: any) : Promise<void>{
+  async updateProfile (value: any, uidtoupdate: string) : Promise<void>{
     await this.db.firestore.runTransaction(() => {
       const promise = Promise.all([
-        this.db.doc('profile/' + 'D4P3KvlZ0iN8l15BldKh9mCCyY12').update(val),
+        this.db.doc('profile/' + `${uidtoupdate}`).update(value),
       ]);
       return promise;
     });
   }
+  docExists(uid: string):any {
+    return this.db.doc(`profile/` + `${uid}`).valueChanges().pipe(first()).toPromise();
+  }
+  async findOrCreate(uid: string) :Promise<usrinfoDetails> {
+    const doc:usrinfoDetails = await this.docExists(uid);
+    if (doc) {
+      console.log('returned', doc);
+      return doc;
+    } else {
+      return undefined;
+    }
+  }
+  
 
   async createnewprofileDetails(uid: string, newprojectinfo: any): Promise<void> {
     await this.db.firestore.runTransaction(() => {

@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit,ChangeDetectionStrategy } from '@angular/core';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
@@ -13,6 +13,7 @@ import firebase from 'firebase/app';
 
 @Component({
   selector: 'app-profile',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
@@ -24,23 +25,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
 
   myusrinfoDetails: usrinfoDetails = {
+    projectName:'',
     profileName: '',
     email: '',
     gender: '',
     areaOfinterest: '',
     skills: '',
     location: '',
-    membershipEnd: '',
     membershipType: '',
     projectLocation: '',
-    photoUrl: ''
-
+    photoUrl: '',
+    membershipEnd: firebase.firestore.Timestamp.fromDate(new Date())
   }
-
-
-
-
-
 
   constructor(public fb: FormBuilder, private _bottomSheet: MatBottomSheet, public developmentservice: UserdataService, private db: AngularFirestore) {
   }
@@ -139,14 +135,10 @@ export class BottomSheetOverviewExampleSheet {
 
 
   save() {
-      this.developmentservice.updateProfile(this.names.value);
+      this.developmentservice.updateProfile(this.names.value, this.data.NewUid);
       console.log(this.names.value);
       this._bottomSheetRef.dismiss();
   }
-
-
-
-
 
   cancel() {
     this.names = null;

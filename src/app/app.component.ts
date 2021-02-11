@@ -43,7 +43,10 @@ export class AppComponent implements AfterViewInit {
     return this.subjectauth;
   };
   getProfilesSubscription: Subscription;
-  getProfilesBehaviourSub = new BehaviorSubject(undefined);
+  getProfilesBehaviourSub = new BehaviorSubject({projectName:'Angular',
+  photoUrl :'https://pbs.twimg.com/profile_images/894730722271010816/1g-2p3_m_400x400.jpg',
+  areaOfinterest:'Angular',
+  profileName:'Merlin'});
   getProfiles = (profileDetails: AngularFirestoreDocument<usrinfoDetails>) => {
     if (this.getProfilesSubscription !== undefined) {
       this.getProfilesSubscription.unsubscribe();
@@ -86,8 +89,11 @@ getSections = (MainAndSubSectionkeys: AngularFirestoreDocument<MainSectionGroup>
 OnlineCheck: undefined;
 profileRef;
 keyRef = this.getSections((this.db.doc('projectKey/' + 'DefaultProject')));
+
 userselectedProject = 'SHOW';
 newUidRef:any;
+  angularProjectProfileRef: BehaviorSubject<{ projectName: string; photoUrl: string; areaOfinterest: string; profileName: string; }>;
+  angularProjectkeyRef: BehaviorSubject<any>;
 
 constructor(
   public developmentservice: UserdataService,
@@ -104,40 +110,96 @@ constructor(
       if (onlineval === true) {
         return this.myauth.pipe(
           map((afterauth: firebase.User) => {
-            console.log(afterauth);
-            if (afterauth == null && afterauth == undefined) {
-              this.profileRef = this.getProfiles((this.db.doc('profile/uid')));
-              console.log('reached here', onlineval);
+            console.log(afterauth === undefined, afterauth === null);
+            
+            if (afterauth !== null && afterauth !== undefined) {//id is available
+              this.myuserProfile.userAuthenObj = afterauth;
+              this.developmentservice.findOrCreate(afterauth.uid).then((success :usrinfoDetails ) => {
+                console.log('110', success);
+                if(success === undefined){
+                  const nextMonth: Date = new Date();
+                  nextMonth.setMonth(nextMonth.getMonth() + 1);
+                  
+                  const newItem = {
+
+                    MembershipEnd: nextMonth.toDateString(),
+                    MembershipType: 'Demo',
+                    projectLocation: '/projectList/DemoProjectKey',
+                    projectOwner: true,
+                    projectName: 'Demo',
+                    profileName:afterauth.displayName,
+                    email:'@',
+                    gender:'m',
+                    areaOfinterest:'g',
+                    skills:'h',
+                    location:'j',
+                    photoUrl: afterauth.photoURL
+                  };
+                  this.db.doc<any>('profile/' +afterauth.uid).set(newItem);
+                  this.profileRef = this.getProfiles((this.db.doc('profile/' + afterauth.uid)));
+                  this.keyRef = this.getSections((this.db.doc('projectKey/' + 'Angular')));
+                  //set- display/update
+                }else{                    
+                  //get data- display/update
+
+                  this.profileRef = this.getProfiles((this.db.doc('profile/' + afterauth.uid)));
+                  this.keyRef = this.getSections((this.db.doc('projectKey/' + 'Angular')));
+                  
+
+
+                }
+              });
+              /*
+              this.myuserProfile.userAuthenObj = afterauth;
+              this.profileRef = this.getProfiles((this.db.doc('profile/' + afterauth.uid)));
+              this.myuserProfile.userAuthenObj = afterauth;
+
+              console.log('119', this.myuserProfile.userAuthenObj);*/
               return of(onlineval);
             }
             else {
-              this.myuserProfile.userAuthenObj = afterauth;
-              this.profileRef = this.getProfiles((this.db.doc('profile/' + afterauth.uid)));
+              //undefined or null
+              //default screen is shown
+              this.myuserProfile.userAuthenObj=afterauth;
 
-              this.myuserProfile.userAuthenObj = afterauth;
+              /*const DefaultProject:usrinfoDetails={
 
-              console.log('119',this.myuserProfile.userAuthenObj);
+                projectName:'Angular',
+                photoUrl :'https://pbs.twimg.com/profile_images/894730722271010816/1g-2p3_m_400x400.jpg',
+                areaOfinterest:'Angular',
+                profileName:'Merlin'
+              };
+             this.profileRef = of(DefaultProject);*/
 
-              console.log('reached here', onlineval);
+
               return of(onlineval);
             }
+            
           }));
       }
-      else {
-        console.log('reached here', onlineval);
-        return of(onlineval);
-      }
+    }
+    ));
+}
+firstProjectReceived(angularProject){
 
-    }));
+  
+  this.profileRef = this.getProfiles((this.db.doc('profile/' + angularProject.firstProjectRef.projectUid)));
+  console.log(this.profileRef);
+
+  this.getSectionsSubscription?.unsubscribe();
+  this.keyRef = this.getSections((this.db.doc('projectKey/' + angularProject.firstProjectRef.projectName)));
+
+  console.log(angularProject.firstProjectRef);
+
+
 }
 
 projctDetails(some) {
-  this.userselectedProject = some.keyref;
   console.log('136',some);
-
   console.log('136',some.keyref);
+
   this.profileRef = this.getProfiles((this.db.doc('profile/' + some.profileRef)));
-  console.log(this.profileRef);
+  console.log('183',this.profileRef);
   this.getSectionsSubscription?.unsubscribe();
   this.keyRef = this.getSections((this.db.doc('projectKey/' + some.keyref)));
 }
