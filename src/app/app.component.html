@@ -1,34 +1,54 @@
 <div *ngIf="(OnlineCheck | async) as onlineReady; else myonlineNotReady">
-  <mat-toolbar color="#444857">
-    <h1 class="SignInbutton">
-      StepsWise Tasking Tool
-  </h1>
-    <span fxFlex="grow"></span>
+  <mat-grid-list cols="10" rowHeight="10vh">
+      <mat-grid-tile colspan="10" rowspan='1'>
+          <mat-toolbar style="color:#444857 ; border-style: dashed ;">
+              <h1 class="SignInbutton">
+                  StepsWise Tasking Tool
+              </h1>
+              <span fxFlex="grow"></span>
+              <input type="text" id="search-query-nav" class="create" aria-label="Create" autocomplete="off"
+                  placeholder="Create New Project" spellcheck="false" role="combobox" aria-autocomplete="list"
+                  aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style=" color: #000;">
+              <span fxFlex="grow"></span>
 
-    <firebase-ui fxLayout="column" (signInSuccessWithAuthResult)="successCallback($event)"
-      (signInFailure)="errorCallback($event)" (uiShown)="uiShownCallback()"></firebase-ui>
-    <button class="SignInbutton">
+              <firebase-ui fxLayout="column" (signInSuccessWithAuthResult)="successCallback($event)"
+                  (signInFailure)="errorCallback($event)" (uiShown)="uiShownCallback()"></firebase-ui>
+              <button class="SignInbutton">
+                  <span fxFlex="grow"></span>
 
-      <button (click)="logout()">Logout</button>
+                  <fa-icon (click)="logout()" class="fas faSignOutAlt fa-lg" [icon]="['fas', 'sign-out-alt']">
+                  </fa-icon>
+              </button>
+          </mat-toolbar>
+          <mat-divider></mat-divider>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="2" rowspan='9' [style.background]="'#F2F3F5'">
 
-      <fa-icon (click)="logout()" class="fas faSignOutAlt fa-lg" [icon]="['fas', 'sign-out-alt']">
-      </fa-icon>
-    </button>
-  </mat-toolbar>
+          <app-profile [profile]="profileRef" [profileinfoUid]="myuserProfile.userAuthenObj" ></app-profile>
 
-  <mat-grid-list cols="10" rowHeight="50vh">
+      </mat-grid-tile>
 
-    <mat-grid-tile colspan="2" rowspan="2" [style.background]="'#F2F3F5'">
+      <mat-grid-tile colspan="4" rowspan='9' [style.background]="'#F2F3F5'">
+          <app-public (projctsDetails)="projctDetails($event)"> </app-public>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="4" rowspan="9" [style.background]="'#F2F3F5'">
+          <div class="viewtree">
+            <div class="SignInbutton" >
+              <div>Keys</div>
+              <span fxFlex="primary"></span>
+            </div>
+            <br>
 
-      <app-profile fxLayout="column" [profile]="profileRef"></app-profile>
+          <app-nested-tree class="mattree" fxLayout="column" [Sections]="keyRef" [latestProject]="userselectedProject" >
+          </app-nested-tree>
+      </div>
+      </mat-grid-tile>
 
-    </mat-grid-tile>
 
   </mat-grid-list>
 </div>
-
-  <ng-template #myonlineNotReady>
-    <div fxLayoutAlign="center center" style="height:10vh;">
+<ng-template #myonlineNotReady>
+  <div fxLayoutAlign="center center" style="height:100vh;">
       Lost Internet Connection!
-    </div>
-  </ng-template>
+  </div>
+</ng-template>

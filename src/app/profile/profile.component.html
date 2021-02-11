@@ -1,9 +1,8 @@
-<div class="SignInbutton" color="#216fdb">
+<div class="SignInbutton" color="#216fdb" >
     <div>Profile</div>
-    <span fxFlex="primary"></span>
+    <span fxFlex></span>
   </div>
-<div *ngIf="profile | async as profiledetails" fxLayout="column" fxLayoutAlign="space-between center">
-
+<div *ngIf="profile | async as profiledetails ; else noprofile"  fxLayout="column" fxLayoutAlign="space-between center">
     <div class="person">
 
         <img [ngStyle]="{'background-image': 'url(' + profiledetails?.photoUrl+ ')', 'background-size': 'cover'  }">
@@ -13,13 +12,20 @@
         <h4>{{profiledetails?.areaOfinterest}}</h4>
         <h4>{{profiledetails?.skills}}</h4>
         <h4>{{profiledetails?.location}}</h4>
-    </div>
-    <br>
-    <mat-card style="background-color: #47cf73; position:relative;">
 
-        <div fxLayout="row" fxLayoutGap="15%" fxLayoutAlign="space-between center">
+          Value:{{profileinfoUid?.uid === null}}
+
+
+    </div>
+    
+
+    <button mat-raised-button color="primary" (click)="openBottomSheet(profiledetails)" [disabled]="profileinfoUid?.uid === null" >Edit</button>
+   
+    <mat-card  class="example-card" fxFlex="20vw" fxFlex.lt-sm="40vw" style="background-color: #47cf73;">
+
+        <div fxLayout="row" fxLayoutGap="15%"  fxLayoutAlign="space-between center">
             <div>
-                <h1> analyze all the Steps of a Task </h1>
+                <h1> Analayze all the Steps of a Task </h1>
                 <h1> Record all the Steps for Easy Tracking </h1>
 
                 <div fxLayout="column" fxLayoutGap="10%">
@@ -36,3 +42,7 @@
 
 
 </div>
+
+<ng-template #noprofile >
+No Profile
+</ng-template>
