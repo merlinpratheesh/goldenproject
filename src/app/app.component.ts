@@ -113,8 +113,10 @@ constructor(
             else {
               this.myuserProfile.userAuthenObj = afterauth;
               this.profileRef = this.getProfiles((this.db.doc('profile/' + afterauth.uid)));
-              this.newUidRef=afterauth.uid;
-              console.log(this.newUidRef);
+
+              this.myuserProfile.userAuthenObj = afterauth;
+
+              console.log('119',this.myuserProfile.userAuthenObj);
 
               console.log('reached here', onlineval);
               return of(onlineval);
@@ -131,7 +133,9 @@ constructor(
 
 projctDetails(some) {
   this.userselectedProject = some.keyref;
-  console.log(some.keyref);
+  console.log('136',some);
+
+  console.log('136',some.keyref);
   this.profileRef = this.getProfiles((this.db.doc('profile/' + some.profileRef)));
   console.log(this.profileRef);
   this.getSectionsSubscription?.unsubscribe();

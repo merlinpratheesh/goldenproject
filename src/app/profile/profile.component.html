@@ -12,12 +12,15 @@
         <h4>{{profiledetails?.areaOfinterest}}</h4>
         <h4>{{profiledetails?.skills}}</h4>
         <h4>{{profiledetails?.location}}</h4>
-    
+
+          Value:{{profileinfoUid?.uid === null}}
+
 
     </div>
-    <button type="button" class="btn btn-sm btn-outline-primary" (click)="openBottomSheet(profiledetails)" >Edit</button>
-
     
+
+    <button mat-raised-button color="primary" (click)="openBottomSheet(profiledetails)" [disabled]="profileinfoUid?.uid === null" >Edit</button>
+   
     <mat-card  class="example-card" fxFlex="20vw" fxFlex.lt-sm="40vw" style="background-color: #47cf73;">
 
         <div fxLayout="row" fxLayoutGap="15%"  fxLayoutAlign="space-between center">
