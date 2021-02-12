@@ -9,10 +9,8 @@
                         <button class="add-task">Add</button>
                     </div>
                 </div>
-
-
                 <firebase-ui fxLayout="column" (signInSuccessWithAuthResult)="successCallback($event)"
-                    (signInFailure)="errorCallback($event)" (uiShown)="uiShownCallback()"></firebase-ui>
+                (signInFailure)="errorCallback($event)" (uiShown)="uiShownCallback()"></firebase-ui>
                 <button class="SignInbutton" style="margin-left:220px;">
                     <span fxFlex="grow"></span>
 
@@ -34,7 +32,7 @@
         </mat-grid-tile>
         <mat-grid-tile colspan="4" rowspan="9" [style.background]="'#F2F3F5'">
             <div class="viewtree">
-               
+
 
                 <app-nested-tree class="mattree" fxLayout="column" [Sections]="keyRef"
                     [latestProject]="userselectedProject">
