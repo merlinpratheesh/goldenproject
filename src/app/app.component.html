@@ -1,7 +1,7 @@
 <div *ngIf="(OnlineCheck | async) as onlineReady; else myonlineNotReady">
     <mat-grid-list cols="10" rowHeight="10vh">
         <mat-grid-tile colspan="10" rowspan='1'>
-            <mat-toolbar style="padding: 0px;">
+            <mat-toolbar style="padding: 0px;background:#444857;  height:100%">
 
                 <div fxlayout="row" class="wrapper">
                     <div class="head">
@@ -11,12 +11,9 @@
                 </div>
 
 
-
-
-
                 <firebase-ui fxLayout="column" (signInSuccessWithAuthResult)="successCallback($event)"
                     (signInFailure)="errorCallback($event)" (uiShown)="uiShownCallback()"></firebase-ui>
-                <button class="SignInbutton">
+                <button class="SignInbutton" style="margin-left:220px;">
                     <span fxFlex="grow"></span>
 
                     <fa-icon (click)="logout()" class="fas faSignOutAlt fa-lg" [icon]="['fas', 'sign-out-alt']">
