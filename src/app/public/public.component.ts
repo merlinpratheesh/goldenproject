@@ -53,11 +53,12 @@ export class PublicComponent implements OnInit {
       if (val === undefined) {
         this.getPublicListBehaviourSub.next(undefined);
       } else {
+
         if (val.public.length === 0) {
           this.getPublicListBehaviourSub.next(null);
         } else {
           this.localpublicList = val.public;
-          console.log(val.public);
+          console.log('61',val.public);
           this.getPublicListBehaviourSub.next(val.public);
         }
       }
@@ -73,6 +74,7 @@ export class PublicComponent implements OnInit {
   publicProjectList: any;
   filteredTasksOptions: Subscription;
   optionsTasks: string[] = [];
+  optionsTasksNamesBk: string[] = [];
   optionsTasksBk: any[] = [];
   DisplayprojectDetails: Observable<projectDetails[]>;
   myprojectDetails: any;
@@ -83,40 +85,35 @@ export class PublicComponent implements OnInit {
     this.optionsTasksSub = docData(this.db.firestore.doc('projectList/publicProject')).subscribe((readrec: any) => {
       this.optionsTasks = [];
       this.optionsTasksBk = readrec.public;
+      console.log(this.optionsTasksBk);
       console.log(this.optionsTasksBk[0]);
       this.firstProject.emit({ firstProjectRef: this.optionsTasksBk[0] });
+      
       readrec.public.forEach(element => {
         this.optionsTasks.push(element.projectName);
       });
+      this.optionsTasksNamesBk= this.optionsTasks;
       console.log(this.optionsTasks);
-    
-      this.filteredTasksOptions = this.emailFormControl.valueChanges.pipe(
-        startWith(''),
-        map((value) => {
-          console.log('96',value);
-          if (value === '' || value === null) {
-            this.publicList = this.getPublicList(this.db.doc('projectList/publicProject'));
-            console.log('99',this.publicList)
-            this.optionsTasks = [];
-            this.optionsTasksBk.forEach(element => {
-              this.optionsTasks.push(element.projectName);
-            });
-            return readrec.public;
-          } else {
-            console.log('75', value);
-            console.log(this.optionsTasksBk.filter(option => option.projectName.toLowerCase().indexOf(value.toLowerCase()) === 0));
-            this.publicList = of(this.optionsTasksBk.filter(option => option.projectName.toLowerCase().indexOf(value.toLowerCase()) === 0));
-            this.optionsTasks = this._filter(value);
-            return this.optionsTasksBk.filter(option => option.projectName.toLowerCase().indexOf(value) === 0);
-          }
+    });
+    this.filteredTasksOptions = this.emailFormControl.valueChanges.pipe(
+      startWith(''),
+      map((myvalue: string) => {
+        console.log('96',myvalue);
+        if (myvalue === '' || myvalue === null) {
+          this.publicList = this.getPublicList(this.db.doc('projectList/publicProject'));
+          this.optionsTasks= this.optionsTasksNamesBk;
+
+        } else {          
+          this.publicList = of(this.optionsTasksBk.filter(option => option.projectName.toLowerCase().indexOf(myvalue.toLowerCase()) === 0));
+          this.optionsTasks = this._filter(myvalue);
+          //return this.optionsTasksBk.filter(option => option.projectName.toLowerCase().indexOf(value) === 0);
         }
-        ))    .subscribe(
-          some=>{
+      }
+      ))    .subscribe(
+        some=>{
 
-          }
-        );
-
-    })
+        }
+      );
 
   }
   private _filter(value: string): string[] {
