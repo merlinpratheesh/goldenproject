@@ -1,5 +1,8 @@
-<div *ngIf="profile | async as profiledetails ; else noprofile" fxLayout="column" fxLayoutAlign="space-between center">
 
+                <h1 style="color: teal; margin:20px">
+                    StepsWise
+                </h1>
+<div *ngIf="profile | async as profiledetails ; else noprofile" fxLayout="column" fxLayoutAlign="space-between center">
 
     <div class="person">
 
@@ -15,14 +18,15 @@
     <button mat-raised-button color="primary" (click)="openBottomSheet(profiledetails)"
         [disabled]="profileinfoUid?.uid === null">Edit</button>
 
-        <mat-card  fxFlex="18vw" style="  background: #eeeeee; box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.3);" >
+        <mat-card  fxFlex="15vw" style="  background: eeeeee; box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.3);" >
 
             <mat-card-header>
-                <mat-card-title>StepsWise</mat-card-title>
-                <mat-card-subtitle>Convert your work into tasks
+                <mat-card-title  style="color: teal;">Convert your work into tasks</mat-card-title>
+                <mat-card-subtitle>
                 </mat-card-subtitle>
             </mat-card-header>
-            <img mat-card-image [src]='' alt="Photo of Task">
+            <img mat-card-image src="https://www.educative.io/v2api/editorpage/4830463930662912/image/6227457685323776"
+            alt="photo">
 
             <mat-card-content>
                 <p>
