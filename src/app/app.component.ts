@@ -197,6 +197,8 @@ firstProjectReceived(angularProject){
 projctDetails(some) {
   console.log('136',some);
   console.log('136',some.keyref);
+  
+  this.userselectedProject=some.keyref;
 
   this.profileRef = this.getProfiles((this.db.doc('profile/' + some.profileRef)));
   console.log('183',this.profileRef);

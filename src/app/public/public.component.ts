@@ -102,7 +102,6 @@ export class PublicComponent implements OnInit {
         if (myvalue === '' || myvalue === null) {
           this.publicList = this.getPublicList(this.db.doc('projectList/publicProject'));
           this.optionsTasks= this.optionsTasksNamesBk;
-
         } else {          
           this.publicList = of(this.optionsTasksBk.filter(option => option.projectName.toLowerCase().indexOf(myvalue.toLowerCase()) === 0));
           this.optionsTasks = this._filter(myvalue);

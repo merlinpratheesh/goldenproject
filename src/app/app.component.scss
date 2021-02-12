@@ -42,10 +42,56 @@
     height:100%;
     width: 100%;
     top:0px;
-    background: linear-gradient(to bottom left, #2d6120, #bee6b4);
+    background-color: rgb(242, 243, 245);
     position: relative;
 
   }
 .mattree{
     top:10px
 }
+
+
+
+.wrapper {
+    background-color: #444857;
+    width: 60%;
+    min-height: 100%;
+    margin-left: 0px;
+
+    border-radius: 8px;
+    position: relative;
+    box-sizing: border-box;
+    padding: 10px 20px 12px !important;
+
+
+  }
+  
+  .head {
+    border-bottom: 2px solid #ee964b;
+    padding: 10px,10px;
+  }
+  
+  h1 {
+    margin: 10px;
+    text-align: center;
+    color: #f4d35e;
+  }
+  
+  .head input {
+    margin: 8px;
+    color: #ee964b;
+    padding: 8px;
+    border-radius: 8px;
+    width: 60%;
+  }
+  
+  .add-task {
+    border-radius: 5px;
+    width: 20%;
+    padding: 8px;
+    color: #0d3b66;
+    background-color: #f4d35e;
+  }
+  
+  
+    

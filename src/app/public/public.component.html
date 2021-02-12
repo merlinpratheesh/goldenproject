@@ -1,6 +1,6 @@
 <div fxLayout="column" fxLayoutGap="5%" *ngIf="(publicList | async) as projectDetails; else waitingload ">
 
-    <div fxFlexOffset="-55%">
+    <div fxFlexOffset="-55%" >
         <form>
             <mat-form-field>
 
@@ -28,7 +28,7 @@
     </div>
 
 
-    <mat-accordion style="position:relative;overflow-y: scroll;">
+    <mat-accordion fxFlexOffset="-35%" style="position:absolute;">
 
         <mat-expansion-panel fxLayout="row" style=" padding: 20px 10px;min-width:50%;"
             *ngFor="let details of projectDetails" (click)="projectsDetails(details)">

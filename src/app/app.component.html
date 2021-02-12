@@ -1,15 +1,20 @@
 <div *ngIf="(OnlineCheck | async) as onlineReady; else myonlineNotReady">
     <mat-grid-list cols="10" rowHeight="10vh">
         <mat-grid-tile colspan="10" rowspan='1'>
-            <mat-toolbar style="color:#444857 ; border-style: dashed ;">
-                <h1 class="SignInbutton">
+            <mat-toolbar style="padding: 0px;">
+
+                <div fxlayout="row" class="wrapper">
+                    <div class="head">
+                        <input id="task-input" type="text" placeholder="Enter a new Task">
+                        <button class="add-task">Add</button>
+                    </div>
+                </div>
+                <h1 style="color: #e91010;">
                     StepsWise Tasking Tool
                 </h1>
-                <span fxFlex="grow"></span>
-                <input type="text" id="search-query-nav" class="create" aria-label="Create" autocomplete="off"
-                    placeholder="Create New Project" spellcheck="false" role="combobox" aria-autocomplete="list"
-                    aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto" style=" color: #000;">
-                <span fxFlex="grow"></span>
+
+
+
 
                 <firebase-ui fxLayout="column" (signInSuccessWithAuthResult)="successCallback($event)"
                     (signInFailure)="errorCallback($event)" (uiShown)="uiShownCallback()"></firebase-ui>
@@ -24,24 +29,22 @@
         </mat-grid-tile>
         <mat-grid-tile colspan="2" rowspan='9' [style.background]="'#F2F3F5'">
 
-            <app-profile [profile]="profileRef" [profileinfoUid]="myuserProfile.userAuthenObj" ></app-profile>
+            <app-profile [profile]="profileRef" [profileinfoUid]="myuserProfile.userAuthenObj"></app-profile>
 
         </mat-grid-tile>
 
-        <mat-grid-tile colspan="4" rowspan='9'  style="background: #F2F3F5; display: fixed;">
-            <app-public (projctsDetails)="projctDetails($event)" (firstProject)="firstProjectReceived($event)" > </app-public>
+        <mat-grid-tile colspan="4" rowspan='9' style="background: #F2F3F5; display: fixed;">
+            <app-public (projctsDetails)="projctDetails($event)" (firstProject)="firstProjectReceived($event)">
+            </app-public>
         </mat-grid-tile>
         <mat-grid-tile colspan="4" rowspan="9" [style.background]="'#F2F3F5'">
             <div class="viewtree">
-              <div class="SignInbutton" >
-                <div>Keys</div>
-                <span fxFlex="primary"></span>
-              </div>
-              <br>
+               
 
-            <app-nested-tree class="mattree" fxLayout="column" [Sections]="keyRef" [latestProject]="userselectedProject" >
-            </app-nested-tree>
-        </div>
+                <app-nested-tree class="mattree" fxLayout="column" [Sections]="keyRef"
+                    [latestProject]="userselectedProject">
+                </app-nested-tree>
+            </div>
         </mat-grid-tile>
 
 
