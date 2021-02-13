@@ -6,17 +6,13 @@ import { collectionData, doc } from 'rxfire/firestore';
 import { map  } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 
-export interface usrinfoDetails {
-  profileName: string,
-  email: string,
-  gender:string,
-  areaOfinterest:string,
-  skills: string,
-  location:string,
-  membershipEnd: string,
-  membershipType: string,
-  projectLocation: string,
-  photoUrl: string,
+export interface createProjectFields {
+  projectName?: string;//Heading in testcase list
+  description?: string;//Sub-Heading in testcase list
+  photoUrl?: string;//Description in testcase view
+  projectUid?: string;//stackblitzLink in testcase edit/doubleclick
+  creationDate?:string;
+  profileName?: string;
 }
 
 export interface projectControls {
@@ -32,10 +28,10 @@ export class UserdataService {
 
   constructor(private db: AngularFirestore) { }
 
-  async updateProfile (val: any) : Promise<void>{
+  async updateTask (val: any) : Promise<void>{
     await this.db.firestore.runTransaction(() => {
       const promise = Promise.all([
-        this.db.doc('profile/' + 'uid').update(val),
+        this.db.doc('/privateProject/D4P3KvlZ0iN8l15BldKh9mCCyY12/projectName/sampleProject').update(val),
       ]);
       return promise;
     });

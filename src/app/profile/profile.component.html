@@ -1,37 +1,23 @@
+
+{{ profile | async | json}}
+
 <div *ngIf="profile | async as profiledetails" fxLayout="column"  fxLayoutAlign="space-between center">
 
-    <mat-card style="background-color: #47cf73;">
-
-        <div fxLayout="row" fxLayoutGap="15%" fxLayoutAlign="space-between center">
-            <div>
-                <h1> Analayze all the Steps of a Task </h1>
-                <h1> Record all the Steps for Easy Tracking </h1>
-
-                <div fxLayout="column" fxLayoutGap="10%">
-                    <mat-chip-list>
-                        <mat-chip
-                            style="font-size:1.5em; cursor:none; opacity:.6; background-color:white;color: #47cf73; padding:10px;height: 60px !important;">
-                            Start Tasking!!</mat-chip>
-                    </mat-chip-list>
-                </div>
-            </div>
-        </div>
-
-    </mat-card>
+ 
 
 
 
 <div class="person">
    
-        <img  [ngStyle]="{'background-image': 'url(' + profiledetails?.photoUrl+ ')', 'background-size': 'cover'  }">
         <h4>{{profiledetails?.profileName}}</h4>
-        <h4>{{profiledetails?.email}}</h4>
-        <h4>{{profiledetails?.gender}}</h4>
-        <h4>{{profiledetails?.areaOfinterest}}</h4>
-        <h4>{{profiledetails?.skills}}</h4>
-        <h4>{{profiledetails?.location}}</h4>
+        <h4>{{profiledetails?.creationDate}}</h4>
+        <h4>{{profiledetails?.description}}</h4>
+        <h4>{{profiledetails?.photoUrl}}</h4>
+        <h4>{{profiledetails?.projectName}}</h4>
+        <h4>{{profiledetails?.projectUid}}</h4>
+
 
 </div>
-<button type="button" class="btn btn-sm btn-outline-primary" (click)="openBottomSheet(profiledetails)" >Edit</button>
+<button type="button" class="btn btn-sm btn-outline-primary" (click)="openDialog(profiledetails)" >Edit</button>
 </div>
 

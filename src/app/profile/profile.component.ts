@@ -3,8 +3,9 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
-import { projectControls, UserdataService, usrinfoDetails } from '../service/userdata.service';
+import { projectControls, UserdataService, createProjectFields } from '../service/userdata.service';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { FormGroup } from '@angular/forms';
 
@@ -17,89 +18,75 @@ import { FormGroup } from '@angular/forms';
 
 export class ProfileComponent implements OnInit, OnDestroy {
 
-  @Input() profile: Observable<usrinfoDetails>;
-  myusrinfoDetails: usrinfoDetails = {
+  @Input() profile: Observable<createProjectFields>;
+
+  mycreateProjectFields: createProjectFields = {
+    projectName: 'merlin',//Heading in testcase list
+    description: '',//Sub-Heading in testcase list
+    photoUrl: '',//Description in testcase view
+    projectUid: '',//stackblitzLink in testcase edit/doubleclick
+    creationDate: '',
     profileName: '',
-    email: '',
-    gender: '',
-    areaOfinterest: '',
-    skills: '',
-    location: '',
-    membershipEnd: '',
-    membershipType: '',
-    projectLocation: '',
-    photoUrl: ''
 
   }
 
-  myprojectControls: projectControls = {
 
-    editProfileGroup: this.fb.group({
 
-      profilenameControl:[{ value: '' }, Validators.required],
-      photourlControl:[{ value: '' }, Validators.required],
-      email_savedControl:[{ value: '' }, Validators.required],
-      genderControl:[{ value: '' }, Validators.required],
-      areasOfInterestControl:[{ value: '' }, Validators.required],
-      skillsControl:[{ value: '' }, Validators.required]
-
-    }),
+  constructor(public fb: FormBuilder, public dialog: MatDialog,
+    private _bottomSheet: MatBottomSheet, public developmentservice: UserdataService, private db: AngularFirestore) {
+  }
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, { data: { mydata: this.mycreateProjectFields}})
   }
 
 
-  constructor(public fb: FormBuilder, private _bottomSheet: MatBottomSheet, public developmentservice: UserdataService, private db: AngularFirestore) {
-  }
-  openBottomSheet(mydata: any): void {
 
-    this._bottomSheet.open(BottomSheetOverviewExampleSheet, { data: mydata });
-  }
+ngOnInit(): void {
+}
+ngOnDestroy() {
 
-  ngOnInit(): void {
-  }
-  ngOnDestroy() {
-
-  }
+}
 }
 @Component({
-  selector: 'bottom-sheet-overview-example-sheet',
+  selector: 'DialogOverviewExampleDialog',
   template: `
 
     <h2 class="py-4">Edit Car</h2>
     <form [formGroup]="names">
       <div class="form-group row">
-        <label for="brand" class="col-sm-2 col-form-label">profileName</label>
+        <label for="brand" class="col-sm-2 col-form-label">projectName</label>
         <div class="col-sm-6">
-          <input type="text" class="form-control" id="brand" formControlName="profileName">
+          <input type="text" class="form-control" id="brand" formControlName="projectName">
         </div>
       </div>
       <div class="form-group row">
-        <label for="model" class="col-sm-2 col-form-label">email</label>
+        <label for="model" class="col-sm-2 col-form-label">description</label>
         <div class="col-sm-6">
-          <input type="text" class="form-control" id="model" formControlName="email">
+          <input type="text" class="form-control" id="model" formControlName="description">
         </div>
       </div>
       <div class="form-group row">
-        <label for="model" class="col-sm-2 col-form-label">gender</label>
+        <label for="model" class="col-sm-2 col-form-label">photoUrl</label>
         <div class="col-sm-6">
-          <input type="text" class="form-control" id="year" formControlName="gender">
+          <input type="text" class="form-control" id="year" formControlName="photoUrl">
         </div>
       </div>
       <div class="form-group row">
-        <label for="model" class="col-sm-2 col-form-label">areaOfinterest</label>
+        <label for="model" class="col-sm-2 col-form-label">projectUid</label>
         <div class="col-sm-6">
-          <input type="text" class="form-control" id="year" formControlName="areaOfinterest">
+          <input type="text" class="form-control" id="year" formControlName="projectUid">
         </div>
       </div>
       <div class="form-group row">
-        <label for="model" class="col-sm-2 col-form-label">skills</label>
+        <label for="model" class="col-sm-2 col-form-label">creationDate</label>
         <div class="col-sm-6">
-          <input type="text" class="form-control" id="year" formControlName="skills">
+          <input type="text" class="form-control" id="year" formControlName="creationDate">
         </div>
       </div>
       <div class="form-group row">
-        <label for="model" class="col-sm-2 col-form-label">location</label>
+        <label for="model" class="col-sm-2 col-form-label">profileName</label>
         <div class="col-sm-6">
-          <input type="text" class="form-control" id="year" formControlName="location">
+          <input type="text" class="form-control" id="year" formControlName="profileName">
         </div>
       </div>
       <div class="form-group row">
@@ -111,54 +98,57 @@ export class ProfileComponent implements OnInit, OnDestroy {
     </form>
   `
 })
-export class BottomSheetOverviewExampleSheet {
+export class DialogOverviewExampleDialog {
 
   names: FormGroup;
 
-  constructor(public developmentservice: UserdataService, private db: AngularFirestore, private _bottomSheetRef: MatBottomSheetRef<BottomSheetOverviewExampleSheet>, @Inject(MAT_BOTTOM_SHEET_DATA) public data: any) {
+  constructor(public developmentservice: UserdataService, private db: AngularFirestore, 
+    public dialogRef: MatDialogRef<DialogOverviewExampleDialog>, @Inject(MAT_DIALOG_DATA) public data: any) {
     console.log(this.data);
     //console.log(this.data.names[0]);
 
     this.names = new FormGroup({
 
-      profileName: new FormControl(this.data.profileName),
-      email: new FormControl(this.data.email),
-      gender: new FormControl(this.data.gender),
-      areaOfinterest: new FormControl(this.data.areaOfinterest),
-      skills: new FormControl(this.data.skills),
-      location: new FormControl(this.data.location)
+      projectName: new FormControl(this.data.projectName),
+      description: new FormControl(this.data.description),
+      photoUrl: new FormControl(this.data.photoUrl),
+      projectUid: new FormControl(this.data.projectUid),
+      creationDate: new FormControl(this.data.creationDate),
+      profileName: new FormControl(this.data.profileName)
 
     });
+    console.log(this.data.projectName);
+
   }
 
 
   save() {
-    
+
     console.log(this.names.get('profileName').value);
-    
+
     const newItem = {
-      profileName:this.names.get('profileName').value,
-      email:this.names.get('email').value,
-      gender:this.names.get('gender').value,
-      areaOfinterest:this.names.get('areaOfinterest').value,
-      skills:this.names.get('skills').value,
-      location:this.names.get('location').value
+      projectName: this.names.get('projectName').value,
+      description: this.names.get('description').value,
+      photoUrl: this.names.get('photoUrl').value,
+      projectUid: this.names.get('projectUid').value,
+      creationDate: this.names.get('creationDate').value,
+      profileName: this.names.get('profileName').value
 
     };
 
-    this.developmentservice.updateProfile(this.names.value);
-    this._bottomSheetRef.dismiss();
+    this.developmentservice.updateTask(this.names.value);
+    this.dialogRef.close();
 
 
   }
 
   cancel() {
     this.names = null;
-    this._bottomSheetRef.dismiss();
+    this.dialogRef.close();
 
   }
   openLink(event: MouseEvent): void {
-    this._bottomSheetRef.dismiss();
+    this.dialogRef.close();
     event.preventDefault();
   }
 }

@@ -4,13 +4,12 @@ import { FormControl, Validators } from '@angular/forms';
 import { docData } from 'rxfire/firestore';
 import { of, Observable, Subscription, BehaviorSubject } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
-import { UserdataService, usrinfoDetails } from './service/userdata.service';
+import { UserdataService, createProjectFields } from './service/userdata.service';
 import { FirebaseUISignInFailure, FirebaseUISignInSuccessWithAuthResult, FirebaseuiAngularLibraryService } from 'firebaseui-angular';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { NgAnalyzedFile } from '@angular/compiler';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-export interface something {
-  profileinfo: any;
-}
 
 @Component({
   selector: 'app-root',
@@ -20,10 +19,9 @@ export interface something {
 export class AppComponent {
   title = 'goldenproject';
 
-  Profiles = of(undefined);
   getProfilesSubscription: Subscription;
   getProfilesBehaviourSub = new BehaviorSubject(undefined);
-  getProfiles = (profileDetails: AngularFirestoreDocument<usrinfoDetails>) => {
+  getProfiles = (profileDetails: AngularFirestoreDocument<createProjectFields>) => {
     if (this.getProfilesSubscription !== undefined) {
       this.getProfilesSubscription.unsubscribe();
     }
@@ -32,6 +30,7 @@ export class AppComponent {
         this.getProfilesBehaviourSub.next(undefined);
       } else {
           this.getProfilesBehaviourSub.next(val);
+          console.log(val);
         
       }
     }
@@ -40,13 +39,11 @@ export class AppComponent {
   };
 
 
-someinfodetails: something = {
-  profileinfo: undefined,
-};
-constructor(public developmentservice: UserdataService, private db: AngularFirestore)
+constructor(public developmentservice: UserdataService, public dialog: MatDialog, private db: AngularFirestore)
 {
-}
-profileRef = this.getProfiles((this.db.doc('profile/uid')));
 
+}
+
+Profiles = this.getProfiles((this.db.doc('/privateProject/D4P3KvlZ0iN8l15BldKh9mCCyY12/projectName/sampleProject')));
 }
 
