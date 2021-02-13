@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as firebase from 'firebase';
 import { createProjectDetails, UserdataService } from './service/userdata.service';
+import { Timestamp } from 'rxjs/internal/operators/timestamp';
 
 
 @Component({
@@ -18,7 +19,7 @@ export class AppComponent {
     description: '',//Sub-Heading in testcase list
     photoUrl: '',//Description in testcase view
     projectUid: '',//stackblitzLink in testcase edit/doubleclick
-    creationDate: firebase.firestore.Timestamp.fromDate(new Date()),
+    creationDate:'',
     profileName: '',
 
   }
@@ -106,7 +107,16 @@ export class DialogOverviewExampleDialog {
     public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
       console.log(this.data);
+      const newItem = {
 
+        creationDate: Date(),
+        description: 'Angular Project',
+        photoUrl:'afterauth.photoURL' ,
+        profileName: 'merlin',
+        projectName: 'React',
+        projectUid:'afterauth.displayName',
+         };
+         this.db.doc<any>('projectList/' + 'publicProject').set(newItem);
 
       this.createProjectDetails = new FormGroup({
 
