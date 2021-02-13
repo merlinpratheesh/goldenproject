@@ -48,8 +48,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
 @Component({
   selector: 'DialogOverviewExampleDialog',
   template: `
-  <h2 class="py-4" style="color: black; width:1000px;" >EDIT PROJECT DETAILS</h2>
-    <form [formGroup]="names">
+  <h2 class="py-4" style="color: black; width:500px;" >EDIT PROJECT DETAILS</h2>
+    <form  fxLayout="column" [formGroup]="names">
       <mat-form-field>
         <input matInput placeholder="Task Name" formControlName="projectName" />
       </mat-form-field>
@@ -80,7 +80,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
         <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
         <mat-datepicker #dp></mat-datepicker>
       </mat-form-field>
-
       <mat-form-field>
         <input matInput placeholder="photoUrl" formControlName="photoUrl" />
       </mat-form-field>
@@ -114,10 +113,10 @@ export class DialogOverviewExampleDialog {
 
       projectName: new FormControl(this.data.projectName),
       description: new FormControl(this.data.description),
+      profileName: new FormControl(this.data.profileName),
+      creationDate: new FormControl(this.data.creationDate),
       photoUrl: new FormControl(this.data.photoUrl),
       projectUid: new FormControl(this.data.projectUid),
-      creationDate: new FormControl(this.data.creationDate),
-      profileName: new FormControl(this.data.profileName)
 
     });
 
