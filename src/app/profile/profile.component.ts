@@ -3,9 +3,10 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
-import { projectControls, UserdataService, createProjectFields } from '../service/userdata.service';
+import { projectControls, UserdataService, createProjectFields, userProfile } from '../service/userdata.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup } from '@angular/forms';
+import firebase from 'firebase/app';
 
 
 @Component({
@@ -17,7 +18,13 @@ import { FormGroup } from '@angular/forms';
 export class ProfileComponent implements OnInit, OnDestroy {
 
   @Input() profile: Observable<createProjectFields>;
+  @Input() profileinfoUid: Observable<createProjectFields>;
 
+
+  myuserProfile: userProfile = {
+    userAuthenObj: null,//Receive User obj after login success
+  };
+  
   mycreateProjectFields: createProjectFields = {
     projectName: '',//Heading in testcase list
     description: '',//Sub-Heading in testcase list
@@ -33,8 +40,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   constructor(public fb: FormBuilder, public dialog: MatDialog,
     public developmentservice: UserdataService, private db: AngularFirestore) {
   }
-  openDialog(mydata: createProjectFields): void {
-    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, { data: mydata });
+  openDialog(mydata: createProjectFields, NewUid:userProfile): void {
+    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, { data: { mydata: this.profile, NewUid: this.profileinfoUid} });
   }
 
 
@@ -111,12 +118,12 @@ export class DialogOverviewExampleDialog {
 
     this.names = new FormGroup({
 
-      projectName: new FormControl(this.data.projectName),
-      description: new FormControl(this.data.description),
-      profileName: new FormControl(this.data.profileName),
-      creationDate: new FormControl(this.data.creationDate),
-      photoUrl: new FormControl(this.data.photoUrl),
-      projectUid: new FormControl(this.data.projectUid),
+      projectName: new FormControl(this.data.mydata.value.projectName),
+      description: new FormControl(this.data.mydata.value.description),
+      profileName: new FormControl(this.data.mydata.value.profileName),
+      creationDate: new FormControl(this.data.mydata.value.creationDate),
+      photoUrl: new FormControl(this.data.mydata.value.photoUrl),
+      projectUid: new FormControl(this.data.mydata.value.projectUid),
 
     });
 
@@ -129,7 +136,7 @@ export class DialogOverviewExampleDialog {
 
 
 
-    this.developmentservice.updateTask(this.names.value);
+    this.developmentservice.updateTask(this.names.value , this.data.NewUid.uid);
     this.dialogRef.close();
 
 

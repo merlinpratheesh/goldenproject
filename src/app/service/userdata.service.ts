@@ -3,8 +3,9 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { collectionData, doc } from 'rxfire/firestore';
-import { map  } from 'rxjs/operators';
+import { first, map  } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
+import { fromEvent, merge, Observable, of } from 'rxjs';
 
 export interface createProjectFields {
   projectName?: string;//Heading in testcase list
@@ -13,6 +14,10 @@ export interface createProjectFields {
   projectUid?: string;//stackblitzLink in testcase edit/doubleclick
   creationDate?:string;
   profileName?: string;
+}
+
+export interface userProfile {
+  userAuthenObj: firebase.User
 }
 
 export interface projectControls {
@@ -25,15 +30,37 @@ export interface projectControls {
 
 
 export class UserdataService {
+  isOnline$: Observable<boolean>;
 
-  constructor(private db: AngularFirestore) { }
 
-  async updateTask (val: any) : Promise<void>{
+  constructor(private db: AngularFirestore) { 
+    this.isOnline$ = merge(
+      of(null),
+      fromEvent(window, 'online'),
+      fromEvent(window, 'offline')
+    ).pipe(map(() => navigator.onLine));
+  }
+
+  async updateTask (value: any, uidtoupdate: string) : Promise<void>{
     await this.db.firestore.runTransaction(() => {
       const promise = Promise.all([
-        this.db.doc('/privateProject/D4P3KvlZ0iN8l15BldKh9mCCyY12/projectName/sampleProject').update(val),
+        this.db.doc('/privateProject/ ' + '`${uidtoupdate}` +/projectName/sampleProject').update(value),
       ]);
       return promise;
     });
+  }
+
+
+  docExists(uid: string):any {
+    return this.db.doc('privateProject/' + `${uid}`).valueChanges().pipe(first()).toPromise();
+  }
+  async findOrCreate(uid: string) :Promise<createProjectFields> {
+    const doc:createProjectFields = await this.docExists(uid);
+    if (doc) {
+      console.log('returned', doc);
+      return doc;
+    } else {
+      return undefined;
+    }
   }
 }
