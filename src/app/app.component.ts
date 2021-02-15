@@ -63,7 +63,7 @@ export class AppComponent {
       if (val === undefined) {
         this.getProfilesBehaviourSub.next(undefined);
       } else {
-          this.getProfilesBehaviourSub.next(val);
+          this.getProfilesBehaviourSub.next(val.privateProjects);
           console.log(val);
         
       }
@@ -105,8 +105,8 @@ constructor(public developmentservice: UserdataService,
                   this.db.doc<any>('/privateProject/'+afterauth.uid+'/private/AngularProject').set(newItem);
                 }else{   
 
-                  this.Profiles = this.getProfiles((this.db.doc('/privateProject/'+afterauth.uid+'/private/AngularProject')));
-
+                  this.Profiles = this.getProfiles((this.db.doc('/privateProject/'+afterauth.uid)));
+                  
 
                   console.log(this.Profiles);
 
