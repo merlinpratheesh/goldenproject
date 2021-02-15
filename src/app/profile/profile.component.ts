@@ -18,7 +18,7 @@ import firebase from 'firebase/app';
 export class ProfileComponent implements OnInit, OnDestroy {
 
   @Input() profile: Observable<createProjectFields>;
-  @Input() profileinfoUid: Observable<createProjectFields>;
+  @Input() profileinfoUid: Observable<firebase.User>;
 
 
   myuserProfile: userProfile = {
@@ -40,9 +40,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
   constructor(public fb: FormBuilder, public dialog: MatDialog,
     public developmentservice: UserdataService, private db: AngularFirestore) {
   }
-  openDialog(mydata: createProjectFields, NewUid:userProfile): void {
+  openEditDialog(mydata: createProjectFields, NewUid:userProfile): void {
     const dialogRef = this.dialog.open(DialogOverviewExampleDialog, { data: { mydata: this.profile, NewUid: this.profileinfoUid} });
   }
+
 
 
 
@@ -111,8 +112,10 @@ export class DialogOverviewExampleDialog {
   names: FormGroup;
 
   constructor(public developmentservice: UserdataService, private db: AngularFirestore,
-    public dialogRef: MatDialogRef<DialogOverviewExampleDialog>, @Inject(MAT_DIALOG_DATA) public data: any) {
-    console.log(this.data);
+    public dialogRef: MatDialogRef<DialogOverviewExampleDialog>, @Inject(MAT_DIALOG_DATA) public data: any) 
+    
+    {
+    console.log('118',this.data);
 
     console.log(this.data.creationDate);
 
@@ -127,14 +130,14 @@ export class DialogOverviewExampleDialog {
 
     });
 
+
+
   }
 
 
   save() {
 
     console.log(this.names.get('profileName').value);
-
-
 
     this.developmentservice.updateTask(this.names.value , this.data.NewUid.uid);
     this.dialogRef.close();

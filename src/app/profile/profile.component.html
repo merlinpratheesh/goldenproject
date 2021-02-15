@@ -1,23 +1,47 @@
-
 {{ profile | async | json}}
 
-<div *ngIf="profile | async as profiledetails" fxLayout="column"  fxLayoutAlign="space-between center">
-
- 
+<div *ngIf="profile | async as profiledetails" fxLayout="column" fxLayoutAlign="space-between center">
 
 
 
-<div class="person">
-   
-        <h4>{{profiledetails?.profileName}}</h4>
-        <h4>{{profiledetails?.creationDate}}</h4>
-        <h4>{{profiledetails?.description}}</h4>
-        <h4>{{profiledetails?.photoUrl}}</h4>
-        <h4>{{profiledetails?.projectName}}</h4>
-        <h4>{{profiledetails?.projectUid}}</h4>
 
+
+        <div class="person">
+
+                <h4>{{profiledetails?.profileName}}</h4>
+                <h4>{{profiledetails?.creationDate}}</h4>
+                <h4>{{profiledetails?.description}}</h4>
+                <h4>{{profiledetails?.photoUrl}}</h4>
+                <h4>{{profiledetails?.projectName}}</h4>
+                <h4>{{profiledetails?.projectUid}}</h4>
+
+
+        </div>
+
+
+        <table class="table">
+                <thead>
+                        <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Brand</th>
+                                <th scope="col">Model</th>
+                                <th scope="col">Year</th>
+                                <th></th>
+                        </tr>
+                </thead>
+                <tbody>
+                        <tr *ngFor="let car of cars; let i = index">
+                                <th scope="row">{{i + 1}}</th>
+                                <td>{{car.brand}}</td>
+                                <td>{{car.model}}</td>
+                                <td>{{car.year}}</td>
+                                <td><button type="button" class="btn btn-sm btn-outline-primary"
+                                                (click)="editCar(car)">Edit</button></td>
+                        </tr>
+                </tbody>
+        </table>
+
+        <button type="button" class="btn btn-sm btn-outline-primary"
+                (click)="openEditDialog(newProjectdetails)">Edit</button>
 
 </div>
-<button type="button" class="btn btn-sm btn-outline-primary" (click)="openDialog(profiledetails)" >Edit</button>
-</div>
-

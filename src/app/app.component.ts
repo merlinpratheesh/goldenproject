@@ -92,6 +92,7 @@ constructor(public developmentservice: UserdataService,
               this.myuserProfile.userAuthenObj = afterauth;
               this.developmentservice.findOrCreate(afterauth.uid).then((success :createProjectFields ) => {
                 console.log('110', success);
+
                 if(success === undefined){
 
                   const newItem = {
@@ -102,11 +103,16 @@ constructor(public developmentservice: UserdataService,
                     creationDate: '',
                     profileName: '',
                   };
-                  this.db.doc<any>('/privateProject/' + 'afterauth.uid' +'/projectName' + '/sampleProject').set(newItem);
-                }else{   
+                  this.db.doc<any>('/privateProject/'+afterauth.uid +'/private/AngularProject').set(newItem);
 
-                  this.Profiles = this.getProfiles((this.db.doc('/privateProject/' + 'afterauth.uid' +'/projectName/' + 'sampleProject')));
-                  console.log(this.Profiles);
+                }else{   
+                  console.log(afterauth.uid);
+
+                  this.Profiles = this.getProfiles((this.db.doc('/privateProject/'+afterauth.uid +'/private/AngularProject' )));
+
+                  console.log('112',this.Profiles);
+
+                  
                 }
               });
               return of(onlineval);
