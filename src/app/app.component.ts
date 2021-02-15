@@ -137,13 +137,14 @@ constructor(
                   };
                   this.db.doc<any>('profile/' +afterauth.uid).set(newItem);
                   this.profileRef = this.getProfiles((this.db.doc('profile/' + afterauth.uid)));
-                  this.keyRef = this.getSections((this.db.doc('projectKey/' + 'Angular')));
+                  console.log(this.profileRef);
+                  this.keyRef = this.getSections((this.db.doc('projectKey/' + 'DefaultProject')));
                   //set- display/update
                 }else{                    
                   //get data- display/update
 
                   this.profileRef = this.getProfiles((this.db.doc('profile/' + afterauth.uid)));
-                  this.keyRef = this.getSections((this.db.doc('projectKey/' + 'Angular')));
+                  this.keyRef = this.getSections((this.db.doc('projectKey/' + 'DefaultProject')));
                   
 
 
