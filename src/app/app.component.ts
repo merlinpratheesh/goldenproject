@@ -106,6 +106,8 @@ constructor(public developmentservice: UserdataService,
                 }else{   
 
                   this.Profiles = this.getProfiles((this.db.doc('/privateProject/'+afterauth.uid+'/private/AngularProject')));
+
+
                   console.log(this.Profiles);
 
                 }

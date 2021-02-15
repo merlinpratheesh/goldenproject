@@ -51,6 +51,7 @@ export class UserdataService {
   }
 
 
+
   docExists(uid: string):any {
     return this.db.doc('privateProject/' + `${uid}`+'/private/AngularProject' ).valueChanges().pipe(first()).toPromise();
   }

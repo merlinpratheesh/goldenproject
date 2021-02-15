@@ -1,24 +1,27 @@
-
 {{ profile | async | json}}
 
-<div *ngIf="profile | async as profiledetails ; else nodata" fxLayout="column"  fxLayoutAlign="space-between center">
-
- 
+<div *ngIf="profile | async as profiledetails ; else nodata" fxLayout="column" fxLayoutAlign="space-between center">
 
 
 
-<div class="person">
-   
-        <h4>{{profiledetails?.profileName}}</h4>
-        <h4>{{profiledetails?.creationDate}}</h4>
-        <h4>{{profiledetails?.description}}</h4>
-        <h4>{{profiledetails?.photoUrl}}</h4>
-        <h4>{{profiledetails?.projectName}}</h4>
-        <h4>{{profiledetails?.projectUid}}</h4>
 
 
-</div>
-<button type="button" class="btn btn-sm btn-outline-primary" (click)="openDialog(profiledetails)" >Edit</button>
+        <div class="person">
+
+                <h4>{{profiledetails?.profileName}}</h4>
+                <h4>{{profiledetails?.creationDate}}</h4>
+                <h4>{{profiledetails?.description}}</h4>
+                <h4>{{profiledetails?.photoUrl}}</h4>
+                <h4>{{profiledetails?.projectName}}</h4>
+                <h4>{{profiledetails?.projectUid}}</h4>
+
+
+        </div>
+        <button type="button" class="btn btn-sm btn-outline-primary"
+                (click)="editOpenDialog(profiledetails)">Edit</button>
+
+                <button type="button" class="btn btn-sm btn-outline-primary"
+                (click)="addNewOpenDialog(profiledetails)">AddNew</button>
 </div>
 <ng-template #nodata>
         nodata

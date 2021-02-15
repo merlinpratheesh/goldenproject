@@ -10,7 +10,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
-import { DialogOverviewExampleDialog, ProfileComponent } from './profile/profile.component';
+import {  AddNewProjectDialog, EditProjectDialog, ProfileComponent } from './profile/profile.component';
 import {firebase, firebaseui, FirebaseUIModule} from 'firebaseui-angular';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
@@ -32,7 +32,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
   };
 @NgModule({
   declarations: [
-    AppComponent,ProfileComponent,DialogOverviewExampleDialog
+    AppComponent,ProfileComponent,EditProjectDialog,AddNewProjectDialog
   ],
   imports: [
     BrowserModule,
@@ -47,7 +47,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
 
   ],
   providers: [],
-  entryComponents: [ DialogOverviewExampleDialog],
+  entryComponents: [ EditProjectDialog,AddNewProjectDialog],
 
   bootstrap: [AppComponent]
 })
