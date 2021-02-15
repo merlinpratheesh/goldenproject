@@ -44,7 +44,7 @@ export class UserdataService {
   async updateTask (value: any, uidtoupdate: string) : Promise<void>{
     await this.db.firestore.runTransaction(() => {
       const promise = Promise.all([
-        this.db.doc('/privateProject/' + `${uidtoupdate}`+'/private/AngularProject' ).update(value),
+        this.db.doc('/privateProject/' + `${uidtoupdate}`+'/private/AngularProject/' ).update(value),
       ]);        
 
       return promise;
