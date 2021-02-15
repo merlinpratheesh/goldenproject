@@ -1,7 +1,7 @@
 
 {{ profile | async | json}}
 
-<div *ngIf="profile | async as profiledetails" fxLayout="column"  fxLayoutAlign="space-between center">
+<div *ngIf="profile | async as profiledetails ; else nodata" fxLayout="column"  fxLayoutAlign="space-between center">
 
  
 
@@ -20,4 +20,6 @@
 </div>
 <button type="button" class="btn btn-sm btn-outline-primary" (click)="openDialog(profiledetails)" >Edit</button>
 </div>
-
+<ng-template #nodata>
+        nodata
+</ng-template>

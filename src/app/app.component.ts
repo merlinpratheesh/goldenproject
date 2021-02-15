@@ -102,11 +102,12 @@ constructor(public developmentservice: UserdataService,
                     creationDate: '',
                     profileName: '',
                   };
-                  this.db.doc<any>('/privateProject/' + 'afterauth.uid' +'/projectName' + '/sampleProject').set(newItem);
+                  this.db.doc<any>('/privateProject/'+afterauth.uid+'/private/AngularProject').set(newItem);
                 }else{   
 
-                  this.Profiles = this.getProfiles((this.db.doc('/privateProject/' + 'afterauth.uid' +'/projectName/' + 'sampleProject')));
+                  this.Profiles = this.getProfiles((this.db.doc('/privateProject/'+afterauth.uid+'/private/AngularProject')));
                   console.log(this.Profiles);
+
                 }
               });
               return of(onlineval);
