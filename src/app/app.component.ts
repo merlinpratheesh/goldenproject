@@ -53,25 +53,7 @@ export class AppComponent {
     return this.subjectauth;
   };
 
-  getProfilesSubscription: Subscription;
-  getProfilesBehaviourSub = new BehaviorSubject(undefined);
-  getProfiles = (profileDetails: AngularFirestoreDocument<createProjectFields>) => {
-    if (this.getProfilesSubscription !== undefined) {
-      this.getProfilesSubscription.unsubscribe();
-    }
-    this.getProfilesSubscription = profileDetails.valueChanges().subscribe((val: any) => {
-      if (val === undefined) {
-        this.getProfilesBehaviourSub.next(undefined);
-      } else {
-          this.getProfilesBehaviourSub.next(val.privateProjects);
-          console.log(val);
-        
-      }
-    }
-    );
-    return this.getProfilesBehaviourSub;
-  };
-  Profiles:Observable<any>;
+
 
 constructor(public developmentservice: UserdataService, 
   public afAuth: AngularFireAuth, 
@@ -90,28 +72,7 @@ constructor(public developmentservice: UserdataService,
             console.log(afterauth);
             if (afterauth !== null && afterauth !== undefined) {//id is available
               this.myuserProfile.userAuthenObj = afterauth;
-              this.developmentservice.findOrCreate(afterauth.uid).then((success :createProjectFields ) => {
-                console.log('110', success);
-                if(success === undefined){
 
-                  const newItem = {
-                    projectName: '',//Heading in testcase list
-                    description: '',//Sub-Heading in testcase list
-                    photoUrl: '',//Description in testcase view
-                    projectUid: '',//stackblitzLink in testcase edit/doubleclick
-                    creationDate: '',
-                    profileName: '',
-                  };
-                  this.db.doc<any>('/privateProject/'+afterauth.uid+'/private/AngularProject').set(newItem);
-                }else{   
-
-                  this.Profiles = this.getProfiles((this.db.doc('/privateProject/'+afterauth.uid)));
-                  
-
-                  console.log(this.Profiles);
-
-                }
-              });
               return of(onlineval);
             }
             else {

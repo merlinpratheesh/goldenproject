@@ -1,18 +1,36 @@
-{{ profile | async |json }}
+{{ this.listOfPrivateProject | async |json }}
+
+<button type="button" class="btn btn-sm btn-outline-primary" (click)="myProject()">MyProjects</button>
 
 
-<div *ngFor="let option of profile | async" [value]="option">
-        {{option}}
+
+<table class="table">
+        <thead>
+                <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Projects</th>
+
+                        <th></th>
+                </tr>
+        </thead>
+        <tbody *ngIf="this.listOfPrivateProject | async as detailsdisplayed">
+
+                <tr *ngFor="let option of detailsdisplayed.privateProjects ; let i = index">
+
+                        <th scope="row">{{i + 1}}</th>
+                        <td>{{option }}</td>
+
+                        <td><button type="button" class="btn btn-sm btn-outline-primary"
+                                        (click)="editOpenDialog(profiledetails)">Edit</button>
+                        </td>
+                </tr>
+        </tbody>
+</table>
 
 
-        <button type="button" class="btn btn-sm btn-outline-primary"
-                (click)="editOpenDialog(profiledetails)">Edit</button>
-                
-<button type="button" class="btn btn-sm btn-outline-primary"
-(click)="addNewOpenDialog(profiledetails)">AddNew</button>
 
-               
-</div>
+
+<button type="button" class="btn btn-sm btn-outline-primary" (click)="addNewOpenDialog(myuserProfile)">AddNew</button>
 
 
 <ng-template #nodata>

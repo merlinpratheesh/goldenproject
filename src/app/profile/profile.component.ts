@@ -8,6 +8,15 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { FormGroup } from '@angular/forms';
 import firebase from 'firebase/app';
 
+import { docData } from 'rxfire/firestore';
+import { of, } from 'rxjs';
+import { switchMap, withLatestFrom } from 'rxjs/operators';
+import { NgAnalyzedFile } from '@angular/compiler';
+import { AfterViewInit} from '@angular/core';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {FirebaseUISignInFailure, FirebaseUISignInSuccessWithAuthResult, FirebaseuiAngularLibraryService} from 'firebaseui-angular';
+
+
 
 @Component({
   selector: 'app-profile',
@@ -17,13 +26,17 @@ import firebase from 'firebase/app';
 
 export class ProfileComponent implements OnInit, OnDestroy {
 
-  @Input() profile: Observable<createProjectFields>;
-  @Input() profileinfoUid: Observable<createProjectFields>;
+  @Input() privateProject: Observable<any>;
+  @Input() profileinfoUid: any;
+
 
 
   myuserProfile: userProfile = {
     userAuthenObj: null,//Receive User obj after login success
   };
+ 
+
+
   
   mycreateProjectFields: createProjectFields = {
     projectName: '',//Heading in testcase list
@@ -35,20 +48,58 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   }
 
+  
+  getProfilesSubscription: Subscription;
+  getProfilesBehaviourSub = new BehaviorSubject(undefined);
+  getlistOfPrivateProject = (profileDetails: AngularFirestoreDocument<createProjectFields>) => {
+    if (this.getProfilesSubscription !== undefined) {
+      this.getProfilesSubscription.unsubscribe();
+    }
+    this.getProfilesSubscription = profileDetails.valueChanges().subscribe((val: any) => {
+      if (val === undefined) {
+        this.getProfilesBehaviourSub.next(undefined);
+      } else {
+          this.getProfilesBehaviourSub.next(val);
+          console.log(val);
+        
+      }
+    }
+    );
+    return this.getProfilesBehaviourSub;
+  };
+  listOfPrivateProject:Observable<any>;
+  selectedPrivateProject:Observable<any>;
 
 
-  constructor(public fb: FormBuilder, public dialog: MatDialog,
+  constructor(public fb: FormBuilder, public dialog: MatDialog,public afAuth: AngularFireAuth,
     public developmentservice: UserdataService, private db: AngularFirestore) {
       
+      
+  }
+
+  myProject(){
+    this.listOfPrivateProject = this.getlistOfPrivateProject((this.db.doc('/privateProject/'+this.profileinfoUid.uid)));
+
+    
+
+
+    console.log(this.listOfPrivateProject);
+
+    console.log(this.profileinfoUid.uid);
+
+
   }
 
 
   editOpenDialog(mydata: createProjectFields, NewUid:userProfile): void {
-    const dialogRef = this.dialog.open(EditProjectDialog, { data: { mydata: this.profile, NewUid: this.profileinfoUid} });
+    this.listOfPrivateProject = this.getlistOfPrivateProject((this.db.doc('/privateProject/'+this.profileinfoUid.uid+'/private/')));
+
+    console.log(this.selectedPrivateProject);
+    const dialogRef = this.dialog.open(EditProjectDialog, { data: { mydata: this.selectedPrivateProject, NewUid: this.profileinfoUid} });
   }
 
-  addNewOpenDialog(mydata: createProjectFields, NewUid:userProfile): void {
-    const dialogRef = this.dialog.open(AddNewProjectDialog, { data: { mydata: this.profile, NewUid: this.profileinfoUid} });
+  addNewOpenDialog( NewUid:userProfile): void {
+    const dialogRef = this.dialog.open(AddNewProjectDialog, { data: { NewUid: this.profileinfoUid} });
   }
 
 
