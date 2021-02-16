@@ -59,7 +59,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       if (val === undefined) {
         this.getProfilesBehaviourSub.next(undefined);
       } else {
-          this.getProfilesBehaviourSub.next(val);
+          this.getProfilesBehaviourSub.next(val.private);
           console.log(val);
         
       }
@@ -92,7 +92,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
 
   editOpenDialog(mydata: createProjectFields, NewUid:userProfile): void {
-    this.listOfPrivateProject = this.getlistOfPrivateProject((this.db.doc('/privateProject/'+this.profileinfoUid.uid+'/private/')));
+    this.selectedPrivateProject = this.getlistOfPrivateProject((this.db.doc('/privateProject/'+this.profileinfoUid.uid)));
 
     console.log(this.selectedPrivateProject);
     const dialogRef = this.dialog.open(EditProjectDialog, { data: { mydata: this.selectedPrivateProject, NewUid: this.profileinfoUid} });

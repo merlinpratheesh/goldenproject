@@ -1,24 +1,42 @@
 {{ this.listOfPrivateProject | async |json }}
 
+
 <button type="button" class="btn btn-sm btn-outline-primary" (click)="myProject()">MyProjects</button>
 
+<div fxFlex="grow" class="container">
 
 
 <table class="table">
         <thead>
                 <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Projects</th>
+                        <th scope="col">profileName</th>
+                        <th scope="col">projectName</th>
+                        <th scope="col">description</th>
+                        <th scope="col">photoUrl</th>
+                        <th scope="col">creationDate</th>
+
+
+
+
 
                         <th></th>
                 </tr>
         </thead>
         <tbody *ngIf="this.listOfPrivateProject | async as detailsdisplayed">
 
-                <tr *ngFor="let option of detailsdisplayed.privateProjects ; let i = index">
+                <tr *ngFor="let option of detailsdisplayed ; let i = index">
 
                         <th scope="row">{{i + 1}}</th>
-                        <td>{{option }}</td>
+                        <td>{{option.profileName }}</td>
+                        <td>{{option.projectName }}</td>
+                        <td>{{option.description }}</td>
+                        <td>{{option.photoUrl }}</td>
+                        <td>{{option.creationDate }}</td>
+
+
+
+
 
                         <td><button type="button" class="btn btn-sm btn-outline-primary"
                                         (click)="editOpenDialog(profiledetails)">Edit</button>
@@ -27,6 +45,7 @@
         </tbody>
 </table>
 
+</div>
 
 
 
