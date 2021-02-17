@@ -17,6 +17,7 @@ import { NestedTreeComponent,BottomSheetChangeOrder } from './nested-tree/nested
 import { AddNodeComponent,NewNodeDialog } from './nested-tree/add-node/add-node.component';
 import { DeleteNodeComponent, } from './nested-tree/delete-node/delete-node.component';
 import { EditNodeComponent,EditNodeDialog } from './nested-tree/edit-node/edit-node.component';
+import { PrivateProjectComponent } from './private-project/private-project.component';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInOptions: [
@@ -39,7 +40,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
 
 @NgModule({
   declarations: [
-    AppComponent,PublicComponent,ProfileComponent,BottomSheetOverviewExampleSheet,EditNodeComponent,EditNodeDialog,NestedTreeComponent,BottomSheetChangeOrder,AddNodeComponent,NewNodeDialog,DeleteNodeComponent,
+    AppComponent,PublicComponent,ProfileComponent,BottomSheetOverviewExampleSheet,EditNodeComponent,EditNodeDialog,NestedTreeComponent,BottomSheetChangeOrder,AddNodeComponent,NewNodeDialog,DeleteNodeComponent, PrivateProjectComponent,
   ],
   imports: [
     BrowserModule,

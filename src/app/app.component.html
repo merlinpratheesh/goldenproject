@@ -37,6 +37,9 @@
             <app-public (projctsDetails)="projctDetails($event)" (firstProject)="firstProjectReceived($event)">
             </app-public>
         </mat-grid-tile>
+
+      
+
         <mat-grid-tile colspan="4" rowspan="9" [style.background]="'#F2F3F5'">
             <div class="viewtree">
                
@@ -45,6 +48,12 @@
                     [latestProject]="userselectedProject">
                 </app-nested-tree>
             </div>
+
+        </mat-grid-tile>
+
+        <mat-grid-tile colspan="4" rowspan='9' style="background: #F2F3F5; display: fixed;" *ngIf=" myuserProfile.userAuthenObj !== null"  >
+            <app-private-project  [profileinfoUid]="myuserProfile.userAuthenObj" (projctsDetails)="projctDetails($event)" (firstProject)="firstProjectReceived($event)">
+            </app-private-project>
         </mat-grid-tile>
 
 

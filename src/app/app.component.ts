@@ -43,10 +43,7 @@ export class AppComponent implements AfterViewInit {
     return this.subjectauth;
   };
   getProfilesSubscription: Subscription;
-  getProfilesBehaviourSub = new BehaviorSubject({projectName:'Angular',
-  photoUrl :'https://pbs.twimg.com/profile_images/894730722271010816/1g-2p3_m_400x400.jpg',
-  areaOfinterest:'Angular',
-  profileName:'Merlin'});
+  getProfilesBehaviourSub = new BehaviorSubject(undefined);
   getProfiles = (profileDetails: AngularFirestoreDocument<usrinfoDetails>) => {
     if (this.getProfilesSubscription !== undefined) {
       this.getProfilesSubscription.unsubscribe();
@@ -113,6 +110,8 @@ constructor(
             console.log(afterauth === undefined, afterauth === null);
             
             if (afterauth !== null && afterauth !== undefined) {//id is available
+              console.log('110', afterauth);
+
               this.myuserProfile.userAuthenObj = afterauth;
               this.developmentservice.findOrCreate(afterauth.uid).then((success :usrinfoDetails ) => {
                 console.log('110', success);
@@ -160,7 +159,8 @@ constructor(
             else {
               //undefined or null
               //default screen is shown
-              this.myuserProfile.userAuthenObj=afterauth;
+              console.log(this.myuserProfile.userAuthenObj);
+              //this.myuserProfile.userAuthenObj=afterauth;
 
               /*const DefaultProject:usrinfoDetails={
 

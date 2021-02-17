@@ -21,7 +21,7 @@ import firebase from 'firebase/app';
 export class ProfileComponent implements OnInit, OnDestroy {
 
   @Input() profile: Observable<usrinfoDetails>;
-  @Input() profileinfoUid: firebase.User;;
+  @Input() profileinfoUid: firebase.User;
 
 
   myusrinfoDetails: usrinfoDetails = {
