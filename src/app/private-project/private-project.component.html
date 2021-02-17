@@ -1,8 +1,8 @@
-{{privateList | async | json}}
 
 <div fxLayout="column" fxLayoutGap="5%" *ngIf="(privateList | async) as projectDetails; else waitingload ">
+    <cdk-virtual-scroll-viewport itemSize="100" class="scroll-viewport">
 
-    <div fxFlexOffset="-55%" >
+    <div >
         <form>
             <mat-form-field>
 
@@ -30,7 +30,7 @@
     </div>
 
 
-    <mat-accordion fxFlexOffset="-35%" style="position:absolute;">
+    <mat-accordion  style="position:relative;">
 
         <mat-expansion-panel fxLayout="row" style=" padding: 20px 10px;min-width:50%;"
             *ngFor="let details of projectDetails" (click)="projectsDetails(details)">
@@ -60,8 +60,11 @@
 
         </mat-expansion-panel>
     </mat-accordion>
+</cdk-virtual-scroll-viewport>
+
 </div>
 
 <ng-template #waitingload>
-    Wait
-</ng-template>
+    <mat-spinner>
+        
+    </mat-spinner></ng-template>

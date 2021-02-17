@@ -34,8 +34,24 @@
         </mat-grid-tile>
 
         <mat-grid-tile colspan="4" rowspan='9' style="background: #F2F3F5; display: fixed;">
-            <app-public (projctsDetails)="projctDetails($event)" (firstProject)="firstProjectReceived($event)">
-            </app-public>
+            <mat-tab-group>
+                <mat-tab class="header" style="color:#216fdb">
+                    <ng-template mat-tab-label  >Public</ng-template>
+                    <ng-template matTabContent>
+                        <app-public (projctsDetails)="projctDetails($event)" (firstProject)="firstProjectReceived($event)">
+                        </app-public>                    
+                    </ng-template>
+                </mat-tab>
+                <mat-tab class="header" style="color:#216fdb" *ngIf=" myuserProfile.userAuthenObj !== null" >
+                    <ng-template mat-tab-label  >Private</ng-template>
+                    <ng-template matTabContent>
+                        <app-private-project  [profileinfoUid]="myuserProfile.userAuthenObj" (projctsDetails)="projctDetails($event)" (firstProject)="firstProjectReceived($event)">
+                        </app-private-project>
+                    
+                    </ng-template>
+                </mat-tab>
+            </mat-tab-group>
+           
         </mat-grid-tile>
 
       
@@ -51,10 +67,6 @@
 
         </mat-grid-tile>
 
-        <mat-grid-tile colspan="4" rowspan='9' style="background: #F2F3F5; display: fixed;" *ngIf=" myuserProfile.userAuthenObj !== null"  >
-            <app-private-project  [profileinfoUid]="myuserProfile.userAuthenObj" (projctsDetails)="projctDetails($event)" (firstProject)="firstProjectReceived($event)">
-            </app-private-project>
-        </mat-grid-tile>
 
 
     </mat-grid-list>
