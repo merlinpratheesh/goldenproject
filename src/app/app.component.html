@@ -1,19 +1,23 @@
+
 <div *ngIf="(OnlineCheck | async) as onlineReady; else myonlineNotReady">
     <mat-grid-list cols="10" rowHeight="10vh">
-        <mat-grid-tile colspan="10" rowspan='1'>
-            <mat-toolbar style="padding: 0px;">
+        <mat-grid-tile colspan="2" rowspan='1' [style.background]="'#444857'">
+            <h1 style="color: #e91010;" [style.background]="'#444857'">
+                StepsWise
+            </h1>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="4" rowspan='1' [style.background]="'#444857'">
+            <app-create-project fxLayout="column" [privateList]="privateProjectsList" [publicList]="publicProjectsList" [profileinfoUid]="myuserProfile.userAuthenObj"></app-create-project>
+        </mat-grid-tile>
 
-                <div fxlayout="row" class="wrapper">
-                    <div class="head">
-                        <input id="task-input" type="text" placeholder="Enter a new Task">
-                        <button class="add-task">Add</button>
-                    </div>
-                </div>
-                <h1 style="color: #e91010;">
+            <mat-grid-tile colspan="4" rowspan='1' [style.background]="'#444857'">
+
+            <mat-toolbar style="padding: 0px; background: #444857;">
+
+                
+                <h1 style="color: #e91010;" [style.background]="'#444857'">
                     StepsWise Tasking Tool
                 </h1>
-
-
 
 
                 <firebase-ui fxLayout="column" (signInSuccessWithAuthResult)="successCallback($event)"
@@ -28,6 +32,7 @@
             <mat-divider></mat-divider>
         </mat-grid-tile>
         <mat-grid-tile colspan="2" rowspan='9' [style.background]="'#F2F3F5'">
+
 
             <app-profile [profile]="profileRef" [profileinfoUid]="myuserProfile.userAuthenObj"></app-profile>
 
@@ -66,7 +71,13 @@
             </div>
 
         </mat-grid-tile>
+        <mat-grid-tile colspan="6" rowspan="9" [style.background]="'#F2F3F5'" >
 
+                                       
+        <app-create-project fxLayout="column" [privateList]="privateProjectsList" [publicList]="publicProjectsList" [profileinfoUid]="myuserProfile.userAuthenObj"></app-create-project>
+
+
+        </mat-grid-tile>
 
 
     </mat-grid-list>

@@ -1,0 +1,13 @@
+
+<div fxlayout="row" class="wrapper">
+
+    <div class="head" *ngIf="profileinfoUid; else disablecreateproject">
+        <input id="task-input" type="text" placeholder="Enter a new Task">
+        <button  class="add-task" (click)="newTaskforUser()">Add</button>
+    </div>
+</div>
+
+
+<ng-template #disablecreateproject>
+    no profileinfoUid
+</ng-template>

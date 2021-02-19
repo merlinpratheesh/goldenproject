@@ -43,7 +43,7 @@ export class AppComponent implements AfterViewInit {
     return this.subjectauth;
   };
   getProfilesSubscription: Subscription;
-  getProfilesBehaviourSub = new BehaviorSubject(undefined);
+  getProfilesBehaviourSub = new BehaviorSubject(null);
   getProfiles = (profileDetails: AngularFirestoreDocument<usrinfoDetails>) => {
     if (this.getProfilesSubscription !== undefined) {
       this.getProfilesSubscription.unsubscribe();
@@ -83,8 +83,55 @@ getSections = (MainAndSubSectionkeys: AngularFirestoreDocument<MainSectionGroup>
   return this.getSectionsBehaviourSub;
 };
 
+getpublicProjectSubscription: Subscription;
+getpublicProjectBehaviourSub = new BehaviorSubject(null);
+getpublicProject = (MainAndSubSectionkeys: AngularFirestoreDocument<any>) => {
+  if (this.getpublicProjectSubscription !== undefined) {
+    this.getpublicProjectSubscription.unsubscribe();
+  }
+  this.getpublicProjectSubscription = MainAndSubSectionkeys.valueChanges().subscribe((val: any) => {
+    if (val === undefined) {
+      this.getpublicProjectBehaviourSub.next(undefined);
+    } else {
+      console.log('96', val.public.length);
+      if (val.public.length === 0) {
+        this.getpublicProjectBehaviourSub.next(null);
+      } else {
+        if (val.public.length !== 0) {
+          this.getpublicProjectBehaviourSub.next(val.public);
+        }
+      }
+    }
+  });
+  return this.getpublicProjectBehaviourSub;
+};
+getprivateProjectSubscription: Subscription;
+getprivateProjectBehaviourSub = new BehaviorSubject(undefined);
+getprivateProject = (MainAndSubSectionkeys: AngularFirestoreDocument<any>) => {
+  if (this.getprivateProjectSubscription !== undefined) {
+    this.getprivateProjectSubscription.unsubscribe();
+  }
+  this.getprivateProjectSubscription = MainAndSubSectionkeys.valueChanges().subscribe((val: any) => {
+    if (val === undefined) {
+      this.getprivateProjectBehaviourSub.next(undefined);
+    } else {
+      if (val.private.length === 0) {
+        this.getprivateProjectBehaviourSub.next(undefined);
+      } else {
+        if (val.private.length !== 0) {
+          this.getprivateProjectBehaviourSub.next(val.private);
+        }
+      }
+    }
+  });
+  return this.getprivateProjectBehaviourSub;
+};
+
 OnlineCheck: undefined;
 profileRef;
+publicProjectsList=of(null);
+
+privateProjectsList;
 keyRef = this.getSections((this.db.doc('projectKey/' + 'DefaultProject')));
 
 userselectedProject = 'SHOW';
@@ -114,7 +161,7 @@ constructor(
 
               this.myuserProfile.userAuthenObj = afterauth;
               this.developmentservice.findOrCreate(afterauth.uid).then((success :usrinfoDetails ) => {
-                console.log('110', success);
+                console.log('163', success);
                 if(success === undefined){
                   const nextMonth: Date = new Date();
                   nextMonth.setMonth(nextMonth.getMonth() + 1);
@@ -137,12 +184,18 @@ constructor(
                   this.db.doc<any>('profile/' +afterauth.uid).set(newItem);
                   this.profileRef = this.getProfiles((this.db.doc('profile/' + afterauth.uid)));
                   this.keyRef = this.getSections((this.db.doc('projectKey/' + 'Angular')));
+
                   //set- display/update
                 }else{                    
                   //get data- display/update
 
                   this.profileRef = this.getProfiles((this.db.doc('profile/' + afterauth.uid)));
                   this.keyRef = this.getSections((this.db.doc('projectKey/' + 'Angular')));
+                  this.publicProjectsList=this.getpublicProject((this.db.doc('/projectList/publicProject')));                  
+                  this.privateProjectsList=this.getprivateProject((this.db.doc('/projectList/'+afterauth.uid)));
+
+                  console.log(this.privateProjectsList);
+
                   
 
 

@@ -18,6 +18,7 @@ import { AddNodeComponent,NewNodeDialog } from './nested-tree/add-node/add-node.
 import { DeleteNodeComponent, } from './nested-tree/delete-node/delete-node.component';
 import { EditNodeComponent,EditNodeDialog } from './nested-tree/edit-node/edit-node.component';
 import { PrivateProjectComponent } from './private-project/private-project.component';
+import {AddNewProjectDialog, CreateProjectComponent} from './create-project/create-project.component';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInOptions: [
@@ -40,7 +41,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
 
 @NgModule({
   declarations: [
-    AppComponent,PublicComponent,ProfileComponent,BottomSheetOverviewExampleSheet,EditNodeComponent,EditNodeDialog,NestedTreeComponent,BottomSheetChangeOrder,AddNodeComponent,NewNodeDialog,DeleteNodeComponent, PrivateProjectComponent,
+    AppComponent,PublicComponent,AddNewProjectDialog,ProfileComponent,BottomSheetOverviewExampleSheet,EditNodeComponent,EditNodeDialog,NestedTreeComponent,BottomSheetChangeOrder,AddNodeComponent,NewNodeDialog,DeleteNodeComponent, PrivateProjectComponent, CreateProjectComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,7 +57,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
   ],
   providers: [],
   
-  entryComponents: [ BottomSheetOverviewExampleSheet],
+  entryComponents: [ BottomSheetOverviewExampleSheet,AddNewProjectDialog],
 
   bootstrap: [AppComponent]
 })

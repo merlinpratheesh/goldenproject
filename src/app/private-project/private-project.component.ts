@@ -82,7 +82,6 @@ export class PrivateProjectComponent implements AfterViewInit {
   optionsTasksNamesBk: string[] = [];
   optionsTasksBk: any[] = [];
   DisplayprojectDetails: Observable<projectDetails[]>;
-  myprojectDetails: any;
   optionsTasksSub: Subscription;
 
   constructor(public developmentservice: UserdataService, private db: AngularFirestore) {

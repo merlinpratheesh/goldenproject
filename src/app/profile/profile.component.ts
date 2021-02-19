@@ -39,6 +39,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   constructor(public fb: FormBuilder, private _bottomSheet: MatBottomSheet, public developmentservice: UserdataService, private db: AngularFirestore) {
+  
+    console.log(this.profile);
   }
 
   openBottomSheet(): void {
@@ -115,7 +117,7 @@ export class BottomSheetOverviewExampleSheet {
     console.log(this.data);
 
 
-    console.log(this.data.mydata.value.profileName);
+    console.log('118',this.data.mydata.value);
 
 
 

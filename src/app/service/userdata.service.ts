@@ -64,6 +64,21 @@ export class UserdataService {
     ).pipe(map(() => navigator.onLine));
   }
 
+  async addPrivateList (value: any, uidtoupdate: string) : Promise<void>{
+    console.log(value);
+    /*await this.db.firestore.runTransaction(() => {
+      const promise = Promise.all([
+        this.db.doc('/privateProject/'+`${uidtoupdate}`+'/private/AngularProject').update(value),
+      ]);
+      return promise;
+    });*/
+  }
+
+  async addPublicList (value: any) : Promise<void>{
+    console.log(value);
+
+  }
+
   async updateProfile (value: any, uidtoupdate: string) : Promise<void>{
     await this.db.firestore.runTransaction(() => {
       const promise = Promise.all([
@@ -86,26 +101,18 @@ export class UserdataService {
   }
   
 
-  async createnewprofileDetails(uid: string, newprojectinfo: any): Promise<void> {
+
+  async createnewproject( myprivate:any[],mypublic:any[],uid:string): Promise<void> {
+
     await this.db.firestore.runTransaction(() => {
       const promise = Promise.all([
-        this.db.firestore.doc('Profile/' + uid).set(newprojectinfo, { merge: true }),
+        this.db.firestore.doc('projectList/' + uid).set({myprivate},{merge: false}),
+        this.db.firestore.doc('projectList/' + 'publicProject/').set({mypublic},{merge: false})      
       ]);
       return promise;
     });
   }
 
-  async createnewproject(uid: string, projectname: string, newprojectinfo: any, MainSection: any): Promise<void> {
-    await this.db.firestore.runTransaction(() => {
-      const promise = Promise.all([
-        this.db.firestore.doc('myProfile/' + uid).set(newprojectinfo, { merge: true }),
-        this.db.firestore.doc('projectList/' + uid).set({ ownerRecord: firebase.firestore.FieldValue.arrayUnion(projectname) }, { merge: true }),
-        this.db.firestore.doc('publicProjectKeys/' + projectname).set({ MainSection }, { merge: false }),
-        this.db.firestore.doc('projectList/' + 'publicProjects/').set({ public: firebase.firestore.FieldValue.arrayUnion(projectname) }, { merge: true })
-      ]);
-      return promise;
-    });
-  }
   async createDefKeys(projectname: string, MainSection: any): Promise<void> {
     await this.db.firestore.runTransaction(() => {
       const promise = Promise.all([
