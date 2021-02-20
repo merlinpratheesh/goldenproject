@@ -6,10 +6,14 @@ import {FirebaseUISignInFailure, FirebaseUISignInSuccessWithAuthResult, Firebase
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
+
 export class AppComponent implements AfterViewInit {
   constructor(public afAuth: AngularFireAuth, public firebaseuiAngularLibraryService: FirebaseuiAngularLibraryService) {
     this.firebaseuiAngularLibraryService.firebaseUiInstance.disableAutoSignIn();
+
+    
 }
+
 
     ngAfterViewInit(): void {
       

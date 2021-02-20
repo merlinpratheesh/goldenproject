@@ -11,6 +11,10 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment'
 import {firebase, firebaseui, FirebaseUIModule} from 'firebaseui-angular';
+import { FirstComponent } from './first/first.component';
+import { SecondComponent } from './second/second.component';
+import { UserdataService } from './service/userdata.service';
+
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInOptions: [
@@ -33,7 +37,9 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FirstComponent,
+    SecondComponent,
   ],
   imports: [
     BrowserModule,

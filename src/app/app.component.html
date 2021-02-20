@@ -6,3 +6,11 @@ App.component-
 <firebase-ui (signInSuccessWithAuthResult)="successCallback($event)"
              (signInFailure)="errorCallback($event)"
              (uiShown)="uiShownCallback()"></firebase-ui>
+
+             <ul>
+                <li><a routerLink="/first-component" routerLinkActive="active">First Component</a></li>
+                <li><a routerLink="/second-component" routerLinkActive="active">Second Component</a></li>
+                <li><a routerLink="/mytask" routerLinkActive="active">Lazy</a></li>
+
+              </ul>
+              <router-outlet></router-outlet>
