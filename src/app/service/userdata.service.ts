@@ -102,13 +102,20 @@ export class UserdataService {
   
 
 
-  async createnewproject( myprivate:any[],mypublic:any[],uid:string): Promise<void> {
-
+  async createnewproject( updatedProject:any,uid:string): Promise<void> {
+    console.log(updatedProject);
     await this.db.firestore.runTransaction(() => {
       const promise = Promise.all([
-        this.db.firestore.doc('projectList/' + uid).set({myprivate},{merge: false}),
-        this.db.firestore.doc('projectList/' + 'publicProject/').set({mypublic},{merge: false})      
-      ]);
+
+      this.db.collection('projectList/').doc(uid).update(
+        {private:firebase.firestore.FieldValue.arrayUnion(updatedProject),
+        }),
+      
+      this.db.collection('projectList/').doc('publicProject').update(
+          {public:firebase.firestore.FieldValue.arrayUnion(updatedProject),
+
+        })]);
+        
       return promise;
     });
   }

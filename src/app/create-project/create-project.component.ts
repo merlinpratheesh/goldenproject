@@ -2,7 +2,7 @@ import { Component, Inject, Input, OnDestroy, OnInit, ChangeDetectionStrategy } 
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { startWith, map, take } from 'rxjs/operators';
+import { startWith, map, take, first } from 'rxjs/operators';
 import { projectControls, UserdataService, userProfile, projectDetails } from '../service/userdata.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -62,21 +62,29 @@ export class CreateProjectComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
 
   }
-  addNewOpenDialog( ): void {
+  addNewOpenDialog(): void {
 
 
   }
   newArray = [];
   mydata;
-  updatedPublicProject: any[] = [];
-  updatedPrivateProject: any[] = [];
+  updatedProject: any[] = [];
 
   newTaskforUser() {
 
     this.dialogRef = this.dialog.open(AddNewProjectDialog, { data: { mydata: this.privateList, NewUid: this.profileinfoUid } });
 
+    const createProject = this.dialogRef.afterClosed().pipe(map((values: any) => {
 
-    const mysub = combineLatest(this.publicList, this.privateList, this.dialogRef.afterClosed()).pipe(map((values: any) => {
+      const mydialog = values;
+
+      this.developmentservice.createnewproject(mydialog, this.profileinfoUid.uid);
+      return (null);
+    })).subscribe((mydata: any) => {
+      //console.log('105', mydata);
+      //this.developmentservice.createnewproject(mydata,this.profileinfoUid.uid);
+    });
+    /*const mysub = combineLatest(this.publicList, this.privateList, this.dialogRef.afterClosed()).pipe(take(1), map((values: any) => {
       const [myprivate, mypublic, mydialog] = values;
       this. updatedPublicProject= myprivate;
             this. updatedPublicProject.push({
@@ -106,7 +114,7 @@ export class CreateProjectComponent implements OnInit, OnDestroy {
               profileName:mydialog.profileName,
               creationDate:mydialog.creationDate
              }
-             console.log(updatedPublic);*/
+             console.log(updatedPublic);
       
       return (null);
     })).subscribe((mydata: any) => {
@@ -116,9 +124,9 @@ export class CreateProjectComponent implements OnInit, OnDestroy {
       //this.developmentservice.createnewproject(mydata,this.profileinfoUid.uid);
 
   
-    });
+    });*/
 
-            console.log('121',this.mydata);
+    console.log('121', this.mydata);
 
 
   }

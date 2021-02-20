@@ -233,6 +233,27 @@ constructor(
     }
     ));
 }
+
+DemoProjectDetails(){
+   
+  const res = this.db.collection('projectList').doc(this.myuserProfile.userAuthenObj.uid).update(
+    {private:firebase.firestore.FieldValue.arrayUnion({projectName: 'Angular',
+    description: 'description',
+    profileName:    'profileName: ',
+    creationDate:   'creationDate', 
+    photoUrl:  'photoUrl',
+    projectUid:' D4P3KvlZ0iN8l15BldKh9mCCyY12' })
+    });
+
+    const res1 = this.db.collection('projectList').doc('publicProject').update(
+      {public:firebase.firestore.FieldValue.arrayUnion({projectName: 'Angular',
+      description: 'description',
+      profileName:    'profileName: ',
+      creationDate:   'creationDate', 
+      photoUrl:  'photoUrl',
+      projectUid:' D4P3KvlZ0iN8l15BldKh9mCCyY12' })
+      });
+}
 firstProjectReceived(angularProject){
 
   
