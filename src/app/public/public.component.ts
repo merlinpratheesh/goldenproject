@@ -76,7 +76,6 @@ export class PublicComponent implements OnInit {
   optionsTasks: string[] = [];
   optionsTasksNamesBk: string[] = [];
   optionsTasksBk: any[] = [];
-  DisplayprojectDetails: Observable<projectDetails[]>;
   optionsTasksSub: Subscription;
 
   constructor(public developmentservice: UserdataService, private db: AngularFirestore) {
@@ -137,7 +136,7 @@ export class PublicComponent implements OnInit {
 
   firstDefaultProject(some) {
 
-    console.log('58', some.projectName);
+    console.log('58', some.this.optionsTasks[0]);
     this.firstProject.emit({ firstProjectRef: some.this.optionsTasks[0] });
   }
 

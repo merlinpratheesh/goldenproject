@@ -2,8 +2,8 @@
 <div  *ngIf="(Sections | async) as SectionsReady; else SectionsnotReady">
   <div fxLayout="column" fxLayoutGap="5%"  style="width: 100%; height: 75vh;overflow-y:auto;" >
     <mat-card *ngIf="SectionsReady !== undefined">
-    <mat-card-header style="padding:2%; border:solid; background-color:#444857;color:white;">
-      <span style="margin-top:2%;">{{latestProject}} </span>  <mat-chip color="primary" selected style=" cursor: pointer;margin-left:5%;">View Tasks</mat-chip>
+    <mat-card-header style="padding:2%; border:solid; border-color:cadetblue; background-color:#F2F3F5;">
+      <span style="margin-top:2%; padding: 8px;">{{latestProject}} </span>  <mat-chip color="primary" selected style=" cursor: pointer;margin-left:5%;">View Tasks</mat-chip>
     </mat-card-header>
     
       <mat-tree

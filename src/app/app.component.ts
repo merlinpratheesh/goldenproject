@@ -134,7 +134,7 @@ publicProjectsList=of(null);
 privateProjectsList;
 keyRef = this.getSections((this.db.doc('projectKey/' + 'DefaultProject')));
 
-userselectedProject = 'SHOW';
+userselectedProject = 'AngularTutorial';
 newUidRef:any;
   angularProjectProfileRef: BehaviorSubject<{ projectName: string; photoUrl: string; areaOfinterest: string; profileName: string; }>;
   angularProjectkeyRef: BehaviorSubject<any>;
@@ -183,14 +183,14 @@ constructor(
                   };
                   this.db.doc<any>('profile/' +afterauth.uid).set(newItem);
                   this.profileRef = this.getProfiles((this.db.doc('profile/' + afterauth.uid)));
-                  this.keyRef = this.getSections((this.db.doc('projectKey/' + 'Angular')));
+                  this.keyRef = this.getSections((this.db.doc('projectKey/' + 'AngularTutorial')));
 
                   //set- display/update
                 }else{                    
                   //get data- display/update
 
                   this.profileRef = this.getProfiles((this.db.doc('profile/' + afterauth.uid)));
-                  this.keyRef = this.getSections((this.db.doc('projectKey/' + 'Angular')));
+                  this.keyRef = this.getSections((this.db.doc('projectKey/' + 'AngularTutorial')));
                   this.publicProjectsList=this.getpublicProject((this.db.doc('/projectList/publicProject')));                  
                   this.privateProjectsList=this.getprivateProject((this.db.doc('/projectList/'+afterauth.uid)));
 
