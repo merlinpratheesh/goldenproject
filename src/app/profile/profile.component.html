@@ -7,9 +7,7 @@
         <h4>{{profiledetails?.profileName}}</h4>
         <h4>{{profiledetails?.email}}</h4>
         <h4>{{profiledetails?.gender}}</h4>
-        <h4>{{profiledetails?.areaOfinterest}}</h4>
-        <h4>{{profiledetails?.skills}}</h4>
-        <h4>{{profiledetails?.location}}</h4>
+   
         <button mat-raised-button color="primary" (click)="openBottomSheet(profiledetails)"
         [disabled]="profileinfoUid?.uid === null">Edit</button>
 
